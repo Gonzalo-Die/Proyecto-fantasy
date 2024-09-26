@@ -1,0 +1,72 @@
+/* Estilo general del body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Contenedor del login */
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+/* Estilo del título */
+.login-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Grupo de inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo para los campos de texto */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+/* Cambiar el color del borde en el foco */
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #a3a3a3;
+    outline: none;
+}
+
+/* Estilo del botón de login */
+.login-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Cambio de color del botón en hover */
+.login-btn:hover {
+    background-color: #45a049;
+}
+
+/* Estilo del mensaje de error */
+.mensaje-error {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}

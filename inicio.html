@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Fantasy App</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- Cabecera con botones y nombre de usuario -->
+    <header class="cabecera">
+        <div class="nav-izquierda">
+            <button onclick="window.location.href='liga.html'">Liga</button>
+            <button onclick="window.location.href='estadisticas.html'">Estadísticas</button>
+            <button onclick="window.location.href='inicio.html'">Tu Equipo</button>
+        </div>
+        <div class="nav-derecha">
+            <p id="nombre-usuario"></p>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <h1>¡Bienvenido a Mi Fantasy App!</h1>
+    
+    <h2>Seleccionar Jornada</h2>
+    <!-- Barra de selección de jornadas -->
+    <select id="jornada-select" onchange="actualizarPuntosJugadoresSeleccionados()">
+      <!-- Generamos las opciones de jornadas de 1 a 30 -->
+      <option value="">Selecciona una jornada</option>
+      <script>
+        for (let i = 1; i <= 30; i++) {
+            document.write(`<option value="${i}">Jornada ${i}</option>`);
+        }
+      </script>
+    </select>
+
+    <!-- Área de selección -->
+    <div class="seleccion">
+        <div class="seleccion-posicion">
+            <p>Defensa</p>
+            <div id="defensa-seleccionado">Selecciona un defensa</div>
+            <button class="seleccion-boton" onclick="mostrarJugadores('Defensa')">+</button>
+            <div id="defensa-lista" class="jugadores-lista"></div>
+        </div>
+        <div class="seleccion-posicion">
+            <p>Medio</p>
+            <div id="medio-seleccionado">Selecciona un medio</div>
+            <button class="seleccion-boton" onclick="mostrarJugadores('Medio')">+</button>
+            <div id="medio-lista" class="jugadores-lista"></div>
+        </div>
+        <div class="seleccion-posicion">
+            <p>Delantero</p>
+            <div id="delantero-seleccionado">Selecciona un delantero</div>
+            <button class="seleccion-boton" onclick="mostrarJugadores('Delantero')">+</button>
+            <div id="delantero-lista" class="jugadores-lista"></div>
+        </div>
+    </div>
+
+    <br></br>
+    <div class="total-equipo-container">
+        <p id="total-equipo">Valor Total: 0M</p>
+    </div>
+
+    <br></br>
+    <!-- Botón para confirmar el equipo -->
+    <div class="confirmar-equipo-container">
+        <button class="confirmar-equipo-btn" id="confirmar-equipo-btn">Confirmar equipo</button>
+    </div>
+
+    <script src="frontend.js"></script> <!-- Enlace al archivo frontend.js -->
+    <script>
+        // Obtener el nombre de usuario desde la sesión
+        fetch('/obtener-usuario')
+            .then(response => response.json())
+            .then(data => {
+                if (data.usuario) {
+                    document.getElementById('nombre-usuario').textContent = `Bienvenido, ${data.usuario}`;
+                }
+            })
+            .catch(error => console.error('Error al obtener el nombre de usuario:', error));
+    </script>
+</body>
+</html>

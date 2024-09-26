@@ -1,0 +1,108 @@
+/* Manteniendo el estilo de la cabecera */
+.cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+}
+
+.nav-izquierda button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.nav-izquierda button:hover {
+    background-color: #45a049;
+}
+
+.nav-derecha {
+    color: white;
+    font-size: 16px;
+}
+
+#nombre-usuario {
+    margin-right: 20px;
+}
+
+/* Mejorar el estilo del título "Ranking de la Liga" */
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    letter-spacing: 2px; /* Añade espacio entre letras para un toque más moderno */
+}
+
+/* Asegurarse de que el ranking esté centrado */
+#ranking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Restauración de los estilos originales para los cuadros del ranking */
+
+/* Cuadro de cada usuario en el ranking */
+.ranking-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 300px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    transition: transform 0.3s;
+    margin-bottom: 20px; /* Añade espacio entre los cuadros */
+}
+
+/* Posición del usuario en el ranking */
+.posicion {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+/* Información del usuario */
+.info-usuario {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Nombre del usuario */
+.nombre-usuario {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Puntuación total del usuario */
+.puntuacion-total {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Animación opcional para los cuadros */
+.ranking-item:hover {
+    transform: scale(1.05); /* Aumentar ligeramente el tamaño al pasar el cursor */
+}

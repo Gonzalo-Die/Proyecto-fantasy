@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de la Liga</title>
+    <link rel="stylesheet" href="liga.css"> <!-- Ruta ajustada para el CSS -->
+</head>
+<body>
+    <header class="cabecera">
+        <div class="nav-izquierda">
+            <button onclick="window.location.href ='liga.html'">Liga</button>
+            <button onclick="window.location.href='estadisticas.html'">Estadísticas</button>
+            <button onclick="window.location.href='inicio.html'">Tu Equipo</button>
+        </div>
+    </header>
+
+    <h1>Ranking de la Liga</h1>
+    
+    <!-- Contenedor para los cuadros de ranking -->
+    <div id="ranking-container"></div>
+
+    <script src="liga.js"></script> <!-- Ruta ajustada para el archivo JS -->
+    <script>
+        // Obtener el nombre de usuario desde la sesión
+        fetch('/obtener-usuario')
+            .then(response => response.json())
+            .then(data => {
+                if (data.usuario) {
+                    document.getElementById('nombre-usuario').textContent = `Bienvenido, ${data.usuario}`;
+                }
+            })
+            .catch(error => console.error('Error al obtener el nombre de usuario:', error));
+    </script>
+</body>
+</html>

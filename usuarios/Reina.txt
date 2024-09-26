@@ -1,0 +1,8 @@
+{
+  "1": {
+    "defensa": "Reina",
+    "medio": "Jalons",
+    "delantero": "Moreno",
+    "confirmado": true
+  }
+}
