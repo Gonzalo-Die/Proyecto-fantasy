@@ -1,8 +1,0 @@
-{
-  "1": {
-    "defensa": "Hernan",
-    "medio": "Jalons",
-    "delantero": "Moreno",
-    "confirmado": true
-  }
-}
