@@ -12,9 +12,9 @@
     "confirmado": false
   },
   "3": {
-    "defensa": null,
+    "defensa": "Torres",
     "medio": "Roma",
-    "delantero": null,
+    "delantero": "Hugo",
     "confirmado": false
   },
   "4": {
