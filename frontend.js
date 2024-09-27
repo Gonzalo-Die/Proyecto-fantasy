@@ -186,14 +186,18 @@ function actualizarTextoValorTotal(valorTotalEquipo) {
 // Función para obtener el valor de un jugador por su nombre
 async function obtenerValorJugador(nombreJugador) {
     try {
-        const response = await fetch(`/obtener-valor-jugador/${nombreJugador}`);
+        const jornadaSelect = document.getElementById("jornada-select");  // Obtenemos el select de jornada
+        const jornada = jornadaSelect.value;  // Obtenemos la jornada seleccionada
+
+        const response = await fetch(`/obtener-valor-jugador/${nombreJugador}?jornada=${jornada}`);
         const data = await response.json();
-        return data.valor || 'N/A';  // Devolver el valor o 'N/A' si no está disponible
+        return data.valor ;  // Devolver el valor o 'N/A' si no está disponible
     } catch (error) {
         console.error('Error al obtener el valor del jugador:', error);
         return 'N/A';  // En caso de error, devolver 'N/A'
     }
 }
+
 
 // Función para actualizar los puntos totales del equipo desde el archivo de usuarios
 async function actualizarPuntosTotalesDesdeArchivo(jornada) {
@@ -605,34 +609,6 @@ async function actualizarPuntosJugadoresSeleccionados() {
         }
     }
 }
-
-
-// Función para manejar el inicio de sesión
-async function login(event) {
-    event.preventDefault();  // Prevent form submission
-
-    const usuario = document.getElementById('usuario').value;
-    const contraseña = document.getElementById('contraseña').value;
-
-    const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ usuario, contraseña }),
-    });
-
-    if (response.ok) {
-        window.location.href = '/index.html';  // Redirect to index.html on success
-    } else {
-        const data = await response.json();
-        const mensajeLogin = document.getElementById('mensaje-login');
-        mensajeLogin.textContent = data.message;
-        mensajeLogin.style.color = 'red';  // Show error message in red
-    }
-}
-
-
 
 
 // Función para confirmar el equipo de la jornada seleccionada

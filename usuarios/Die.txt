@@ -1,0 +1,26 @@
+{
+  "1": {
+    "defensa": "Die",
+    "medio": "Rome",
+    "delantero": "Rubira",
+    "confirmado": true
+  },
+  "2": {
+    "defensa": "Luis Moreno",
+    "medio": "Rome",
+    "delantero": "Rubira",
+    "confirmado": false
+  },
+  "3": {
+    "defensa": null,
+    "medio": "Roma",
+    "delantero": null,
+    "confirmado": false
+  },
+  "": {
+    "defensa": null,
+    "medio": "Roma",
+    "delantero": null,
+    "confirmado": false
+  }
+}

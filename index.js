@@ -29,90 +29,82 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-// Función para leer el archivo login.txt y verificar las credenciales
-function verificarCredenciales(usuario, contraseña, callback) {
-    const filePath = path.join(__dirname, 'login.txt');
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return callback(err, false);
-        }
-        const lines = data.split('\n');
-        for (const line of lines) {
-            const [fileUsuario, fileContraseña] = line.split(':');
-            if (fileUsuario === usuario && fileContraseña.trim() === contraseña) {
-                return callback(null, true);
-            }
-        }
-        return callback(null, false);
-    });
-}
-
-// Ruta para manejar el formulario de login
-app.post('/login', (req, res) => {
-    const { usuario, contraseña } = req.body;
-
-    verificarCredenciales(usuario, contraseña, (err, esValido) => {
-        if (err) {
-            return res.status(500).json({ message: 'Error en el servidor' });
-        }
-        if (esValido) {
-            req.session.usuario = usuario;  // Guardar el usuario en la sesión
-            actualizarValorJugadores(); 
-            // Definir la ruta de la carpeta "usuarios"
-            const userDir = path.join(__dirname, 'usuarios');
-            const userFile = path.join(userDir, `${usuario}.txt`);
-
-            // Verificar si la carpeta "usuarios" existe
-            if (!fs.existsSync(userDir)) {
-                fs.mkdirSync(userDir);  // Crear la carpeta "usuarios" si no existe
-            }
-
-            // Verificar si el archivo de usuario existe
-            if (!fs.existsSync(userFile)) {
-                // Si el archivo no existe, crearlo vacío
-                fs.writeFileSync(userFile, '', 'utf-8');
-                console.log(`Archivo creado para el usuario: ${usuario}`);
-            }
-
-            // Redirigir a inicio.html tras iniciar sesión correctamente
-            return res.redirect('/inicio.html');  
-        } else {
-            return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
-        }
-    });
-});
-
-// Ruta para mostrar el formulario de inicio de sesión
+// Ruta para servir el archivo login.html como página principal
 app.get('/', (req, res) => {
-    if (req.session.usuario) {
-        return res.redirect('/inicio.html');  // Redirigir a index.html si ya está logueado
-    }
-    res.sendFile(path.join(__dirname, 'login.html')); // Mostrar el formulario de login si no ha iniciado sesión
+    res.sendFile(path.join(__dirname, 'login.html')); // Cambia 'login.html' al nombre del archivo HTML que quieras mostrar
 });
 
-// Middleware para proteger el acceso a index.html (solo usuarios autenticados)
+
 function requireLogin(req, res, next) {
-    if (req.session.usuario) {
-        next();
-    } else {
-        res.redirect('/');  // Redirigir al login si no ha iniciado sesión
+    if (!req.session.usuario) {
+        return res.status(401).json({ error: 'Debes iniciar sesión para acceder a esta página.' });
     }
+    next();
 }
 
-// Ruta para cerrar sesión
-app.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).send('Error al cerrar sesión');
+// Ruta del archivo donde se almacenan los usuarios y contraseñas
+const loginFilePath = path.join(__dirname, 'login.txt');
+
+function verificarUsuario(username, password) {
+    if (!fs.existsSync(loginFilePath)) return false;
+
+    const usuarios = fs.readFileSync(loginFilePath, 'utf-8').split('\n');
+    console.log(usuarios);
+    console.log(username + " ---- " + password);
+
+    for (const usuario of usuarios) {
+        const [storedUsername, storedPassword] = usuario.split(':').map(value => value.trim()); // Eliminar espacios en blanco y caracteres especiales
+
+        console.log(`Comparando ${storedUsername} con ${username} y ${storedPassword} con ${password}`);
+
+        if (storedUsername === username && storedPassword === password) {
+            return true;
         }
-        res.redirect('/');  // Redirigir al login después de cerrar sesión
-    });
+    }
+    return false;
+}
+
+
+// Función para registrar un nuevo usuario
+function registrarUsuario(username, password) {
+    if (!fs.existsSync(loginFilePath)) {
+        fs.writeFileSync(loginFilePath, '', 'utf-8');
+    }
+
+    const usuarios = fs.readFileSync(loginFilePath, 'utf-8').split('\n');
+    for (const usuario of usuarios) {
+        const [storedUsername] = usuario.split(':');
+        if (storedUsername === username) {
+            return false; // El usuario ya existe
+        }
+    }
+
+    // Agregar el nuevo usuario al archivo
+    fs.appendFileSync(loginFilePath, `${username}:${password}\n`, 'utf-8');
+    return true;
+}
+
+// Ruta para manejar el login
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (verificarUsuario(username, password)) {
+        req.session.usuario = username; // Guardar el usuario en la sesión
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
 });
 
-// Proteger la ruta de acceso a `index.html` con el middleware `requireLogin`
-app.get('/inicio.html', requireLogin, (req, res) => {
-    res.sendFile(path.join(__dirname, 'inicio.html'));
+// Ruta para manejar el registro
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+    if (registrarUsuario(username, password)) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, message: 'Usuario ya existente' });
+    }
 });
+
 
 // Función para leer el archivo Excel
 function leerExcel() {
@@ -377,6 +369,12 @@ function actualizarValorJugadores() {
 // Ruta para obtener el valor de un jugador por su nombre
 app.get('/obtener-valor-jugador/:nombre', (req, res) => {
     const nombreJugador = req.params.nombre;
+    const jornada = req.query.jornada; // Obtenemos la jornada desde los parámetros de la solicitud
+
+    // Si es la jornada 1, devolver 0 como valor de los jugadores
+    if (jornada === '1') {
+        return res.json({ valor: 0 });
+    }
 
     // Leer el archivo Valor_jugadores.txt
     const valorJugadoresPath = path.join(__dirname, 'Valor_jugadores.txt');
@@ -398,6 +396,7 @@ app.get('/obtener-valor-jugador/:nombre', (req, res) => {
         return res.status(500).json({ message: 'Archivo Valor_jugadores.txt no encontrado' });
     }
 });
+
 
 
 

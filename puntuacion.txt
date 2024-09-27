@@ -1,3 +1,4 @@
-Die:9
-Hernan:-6
-Reina:2
+Die:0
+Gonzalo:0
+Reina:0
+Tomas:0

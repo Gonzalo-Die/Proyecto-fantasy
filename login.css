@@ -1,72 +1,134 @@
-/* Estilo general del body */
+/* Reset de márgenes y paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Estilo para el cuerpo */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+    background: linear-gradient(135deg, #2a9d8f, #A8DADC); /* Cambiado a verde suave */
+    color: #fff;
 }
 
-/* Contenedor del login */
-.login-container {
-    background-color: white;
-    padding: 40px;
+/* Contenedor principal */
+#login-container, #register-container {
+    background-color: #66e36a;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-}
-
-/* Estilo del título */
-.login-container h1 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Grupo de inputs */
-.input-group {
-    margin-bottom: 20px;
-}
-
-/* Estilo para los campos de texto */
-input[type="text"], input[type="password"] {
+    padding: 20px;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #f9f9f9;
+    max-width: 400px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-/* Cambiar el color del borde en el foco */
-input[type="text"]:focus, input[type="password"]:focus {
-    border-color: #a3a3a3;
-    outline: none;
-}
 
-/* Estilo del botón de login */
-.login-btn {
-    background-color: #4CAF50;
+
+/* Título principal */
+/* Estilo del título principal y subtítulo */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;  /* Espacio entre h1 y h2 */
     color: white;
+    text-align: center;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+h2 {
+    font-size: 1.8rem;  /* Un tamaño un poco más pequeño que el h1 */
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 15%;  /* Espaciado ajustado para estar debajo del h1 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* Estilo para los formularios */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 1.1rem;
+    text-align: left;
+    color: #1d3557;
+}
+
+/* Estilo de los inputs */
+input[type="text"],
+input[type="password"] {
     padding: 10px;
+    font-size: 1rem;
     border: none;
     border-radius: 5px;
-    width: 100%;
-    font-size: 16px;
+    background-color: #f1faee;
+    color: #1d3557;
+    outline: none;
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.02);
+}
+
+/* Estilo de los botones */
+button {
+    padding: 10px;
+    background-color: #e63946;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-/* Cambio de color del botón en hover */
-.login-btn:hover {
-    background-color: #45a049;
-}
-
-/* Estilo del mensaje de error */
-.mensaje-error {
-    color: red;
+    transition: all 0.3s;
     margin-top: 10px;
-    font-size: 14px;
+}
+
+button:hover {
+    background-color: #f77f8e;
+}
+
+/* Links para cambiar entre login y registro */
+a {
+    color: #1d3557;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Para ajustar los contenedores y hacerlos más responsivos */
+@media (max-width: 500px) {
+    #login-container, #register-container {
+        padding: 15px;
+    }
+
+    h1, h2 {
+        font-size: 1.5rem;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 0.9rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
 }
