@@ -17,6 +17,12 @@
     "delantero": null,
     "confirmado": false
   },
+  "4": {
+    "defensa": "Luis Moreno",
+    "medio": "Eslava",
+    "delantero": "Ignacio Die",
+    "confirmado": false
+  },
   "": {
     "defensa": null,
     "medio": "Roma",
