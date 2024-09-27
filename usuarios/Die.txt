@@ -7,8 +7,8 @@
   },
   "2": {
     "defensa": "Luis Moreno",
-    "medio": "Rome",
-    "delantero": "Rubira",
+    "medio": "Capape",
+    "delantero": "Jose Luis",
     "confirmado": false
   },
   "3": {
