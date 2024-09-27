@@ -110,7 +110,7 @@ app.post('/register', (req, res) => {
 // Función para leer el archivo Excel
 function leerExcel() {
     // Cargar el archivo Excel
-    const workbook = xlsx.readFile('./Excel_datos.xlsx');
+    const workbook = xlsx.readFile('./FantasyFA.xlsx');
     
     // Leer la primera hoja del archivo
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -130,13 +130,14 @@ app.get('/datos_excel', requireLogin, (req, res) => { // Protegemos esta ruta
 // Función para leer una hoja específica de un archivo Excel
 function leerExcelPuntosJornada() {
     // Cargar el archivo Excel
-    const workbook = xlsx.readFile('./Excel_datos.xlsx');
+    const workbook = xlsx.readFile('./FantasyFA.xlsx');
     
     // Seleccionar la hoja específica, en este caso "Hoja2"
-    const hoja = workbook.Sheets["Puntos_jornada"];
+    const hoja = workbook.Sheets["Clasificacion"];
     
     // Convertir la hoja a formato JSON
     const datos = xlsx.utils.sheet_to_json(hoja);
+    
 
     return datos; // Esto devolverá los datos de la "Hoja2"
 }
@@ -313,7 +314,7 @@ app.get('/obtener-fecha-jornada/:jornada', (req, res) => {
 const valorJugadoresPath = path.join(__dirname, 'Valor_jugadores.txt');
 
 function actualizarValorJugadores() {
-    const workbook = xlsx.readFile('./Excel_datos.xlsx');
+    const workbook = xlsx.readFile('./FantasyFA.xlsx');
     const sheet = workbook.Sheets['Puntos_jornada'];
     const jugadores = xlsx.utils.sheet_to_json(sheet);
 
@@ -452,10 +453,8 @@ async function calcularPuntosEquipo(equipo, jornada) {
 async function obtenerPuntosJugador(jugador, jornada) {
     // Leer los puntos del archivo Excel correspondiente
     const datosJornada = leerExcelPuntosJornada();
-    
     // Encontrar al jugador en los datos de la jornada
-    const jugadorData = datosJornada.find(j => j.Jugador === jugador);
-    console.log(jugadorData && jugadorData[jornada]);
+    const jugadorData = datosJornada.find(j => j.Jugador === jugador.trim());
     if (jugadorData && jugadorData[jornada]) {
         return jugadorData[jornada];  // Retornar los puntos de esa jornada
     }

@@ -1,8 +1,8 @@
 {
   "1": {
-    "defensa": "Die",
-    "medio": "Rome",
-    "delantero": "Rubira",
+    "defensa": "Montero",
+    "medio": "Berned",
+    "delantero": "Moreno",
     "confirmado": false
   }
 }
