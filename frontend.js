@@ -93,7 +93,7 @@ async function seleccionarJugador(posicion, jugador) {
     if(jornadaOcurrida){
         seleccionadoDiv.innerHTML = `
         <div class="jugador-seleccionado">
-            <img src="Img/${jugador.foto}" alt="${jugador.nombre}" width="100" height="100">
+            <img src="Img/${jugador.foto}" alt="${jugador.nombre}" loading="lazy" width="100" height="100">
             <p class="nombre-jugador">${jugador.nombre}</p>
             <p>Dorsal: ${jugador.dorsal}</p>
             <div class="puntos-jugador">Puntos: ${puntos !== null ? puntos : 'N/A'}</div>
@@ -116,7 +116,7 @@ async function seleccionarJugador(posicion, jugador) {
         const valorJugador = await obtenerValorJugador(jugador.nombre);      
         seleccionadoDiv.innerHTML = `
             <div class="jugador-seleccionado">
-                <img src="Img/${jugador.foto}" alt="${jugador.nombre}" width="100" height="100">
+                <img src="Img/${jugador.foto}" alt="${jugador.nombre}" loading="lazy" width="100" height="100">
                 <p class="nombre-jugador">${jugador.nombre}</p>
                 <p>Dorsal: ${jugador.dorsal}</p>
                 <div class="Valor-jugador">Valor: ${valorJugador}M</div>
@@ -683,7 +683,7 @@ function verificarRangoConfirmacion(jornada) {
                 const fechaInicio = new Date(fechaJornadaObj);
                 fechaInicio.setDate(fechaInicio.getDate() - 7); // 7 días antes
                 const fechaFin = new Date(fechaJornadaObj);
-                fechaFin.setDate(fechaFin.getDate() - 2); // 2 días antes
+                fechaFin.setDate(fechaFin.getDate() - 1); // 2 días antes
 
                 const fechaActual = new Date();
                 if (fechaActual >= fechaInicio && fechaActual <= fechaFin) {
