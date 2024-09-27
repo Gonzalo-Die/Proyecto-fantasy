@@ -24,10 +24,11 @@ app.use(session({
 }));
 
 // Iniciar el servidor en el puerto 3000
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Servidor corriendo en el puerto ${port}`);
 });
+
 
 // Ruta para servir el archivo login.html como página principal
 app.get('/', (req, res) => {
