@@ -681,7 +681,7 @@ function verificarRangoConfirmacion(jornada) {
 
                 // Calcular fechas de habilitación y deshabilitación
                 const fechaInicio = new Date(fechaJornadaObj);
-                fechaInicio.setDate(fechaInicio.getDate() - 7); // 7 días antes
+                fechaInicio.setDate(fechaInicio.getDate() - 6); // 7 días antes
                 const fechaFin = new Date(fechaJornadaObj);
                 fechaFin.setDate(fechaFin.getDate() - 1); // 2 días antes
 
@@ -793,4 +793,24 @@ function verificarJornadaOcurrida() {
 }
 
 
+// Función para actualizar los valores de los jugadores desde el servidor
+async function actualizarValoresJugadores() {
+    try {
+        const response = await fetch('/actualizar-valores');
+        const data = await response.json();
+        if (data.success) {
+            console.log('Valores de jugadores actualizados correctamente.');
+        } else {
+            console.error('Error al actualizar los valores de los jugadores.');
+        }
+    } catch (error) {
+        console.error('Error en la solicitud para actualizar los valores:', error);
+    }
+}
+
+
+// Ejecutar la actualización de valores de los jugadores al cargar la página
+window.onload = function() {
+    actualizarValoresJugadores();
+};
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo Jugar - Fantasy Fomento Alumni</title>
+    <link rel="stylesheet" href="como-jugar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Iconos FontAwesome -->
+</head>
+<body>
+     <!-- Cabecera con botones -->
+     <header class="cabecera">
+        <div class="nav-izquierda">
+            <button onclick="window.location.href='liga.html'">Liga</button>
+            <button>Estadísticas</button>
+            <button onclick="window.location.href='inicio.html'">Tu Equipo</button>
+            <button onclick="window.location.href='como-jugar.html'">Cómo Jugar</button> <!-- Botón nuevo -->
+        </div>
+    </header>
+
+    <section class="game-rules">
+        <br><br>
+        <div class="rule">
+            <h2><i class="fas fa-users"></i> Elección de jugadores</h2>
+            <p>Debes seleccionar <strong>1 defensa</strong>, <strong>1 medio</strong> y <strong>1 delantero</strong> cada jornada.</p>
+        </div>
+
+        <div class="rule">
+            <h2><i class="fas fa-exchange-alt"></i> Cambia cada semana</h2>
+            <p>No puedes repetir los jugadores de un <strong>domingo</strong> a otro. ¡Cada semana hay que renovar el equipo!</p>
+        </div>
+
+        <div class="rule">
+            <h2><i class="fas fa-coins"></i> Presupuesto</h2>
+            <p>Tienes un presupuesto de <strong>50 millones</strong>. Si lo superas, no podrás guardar tu equipo.</p>
+        </div>
+
+        <div class="rule">
+            <h2><i class="fas fa-chart-line"></i> Valor de los jugadores</h2>
+            <p>El valor de los jugadores depende de los puntos que acumulen. <strong>El que más puntos tenga, será el más caro</strong>.</p>
+        </div>
+
+        <div class="rule">
+            <h2><i class="fas fa-calendar-alt"></i> Confirmar el equipo</h2>
+            <p>Puedes confirmar tu equipo entre <strong>lunes</strong> y <strong>viernes</strong>. Si no lo confirmas, <strong>no puntuarás</strong> esa semana.</p>
+        </div>
+
+        <!-- Nueva sección para el sistema de puntuación -->
+        <div class="rule">
+            <h2><i class="fas fa-trophy"></i> Sistema de Puntuación</h2>
+            <ul>
+                <li><strong>Minutos jugados:</strong>
+                    <ul>
+                        <li>90 min - 3 puntos</li>
+                        <li>45-89 min - 2 puntos</li>
+                        <li>1-44 min - 1 punto</li>
+                    </ul>
+                </li>
+                <li><strong>Si juegas más de 30 minutos:</strong>
+                    <ul>
+                        <li>Victoria (W) - 2 puntos</li>
+                        <li>Empate (D) - 1 punto</li>
+                        <li>Derrota (L) - 0 puntos</li>
+                    </ul>
+                </li>
+                <li><strong>Goles:</strong>
+                    <ul>
+                        <li>Defensa (Def) - 6 puntos</li>
+                        <li>Mediocampista (Med) - 5 puntos</li>
+                        <li>Delantero (Del) - 4 puntos</li>
+                    </ul>
+                </li>
+                <li><strong>Asistencias:</strong> 3 puntos</li>
+                <li><strong>0 Goles en contra:</strong>
+                    <ul>
+                        <li>Portero - 4 puntos</li>
+                        <li>Defensas - 3 puntos</li>
+                        <li>Resto - 2 puntos</li>
+                    </ul>
+                </li>
+                <li><strong>Penalizaciones:</strong>
+                    <ul>
+                        <li>Amarillas -1 punto</li>
+                        <li>Rojas -3 puntos</li>
+                        <li>Goles en propia puerta -3 puntos</li>
+                        <li>Errores grandes -2 puntos</li>
+                        <li>Penalti provocado +3 puntos</li>
+                        <li>Penalti cometido -3 puntos</li>
+                    </ul>
+                </li>
+                <li><strong>MVP:</strong> 3 puntos</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <p><i class="fas fa-star"></i> ¡Prepárate para liderar la tabla! <i class="fas fa-trophy"></i></p>
+    </footer>
+</body>
+</html>

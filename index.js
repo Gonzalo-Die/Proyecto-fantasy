@@ -309,19 +309,15 @@ app.get('/obtener-fecha-jornada/:jornada', (req, res) => {
 
 
 
-
 // Ruta al archivo Valor_jugadores.txt
 const valorJugadoresPath = path.join(__dirname, 'Valor_jugadores.txt');
 
 function actualizarValorJugadores() {
     const workbook = xlsx.readFile('./FantasyFA.xlsx');
-    const sheet = workbook.Sheets['Puntos_jornada'];
+    const sheet = workbook.Sheets['Clasificacion'];
     const jugadores = xlsx.utils.sheet_to_json(sheet);
 
-    // Verificamos el nombre de la columna TOTAL (asegurándonos de que esté correcta)
-      // Esto te mostrará la estructura para verificar la clave correcta
-
-    // Precios fijos
+    // Precios fijos por rango
     const precios = [
         { rango: 26, cantidad: 4 },
         { rango: 22, cantidad: 4 },
@@ -335,38 +331,55 @@ function actualizarValorJugadores() {
     let jugadorIndex = 0;
     let contenidoArchivo = '';
 
-    // Intentamos ordenar los jugadores por la clave correcta para `TOTAL`
+    // Ordenamos los jugadores en función del valor en la columna TOTAL
     jugadores.sort((a, b) => {
-        const totalA = parseFloat(a.total) || 0;  // Aseguramos que TOTAL sea numérico
+        const totalA = parseFloat(a.total) || 0;  // Convertir los puntos a número, 0 si no hay puntos
         const totalB = parseFloat(b.total) || 0;
         return totalB - totalA;  // Ordenar de mayor a menor
     });
 
+    // Iterar sobre los rangos de precios y jugadores
     precios.forEach(({ rango, cantidad }) => {
         for (let i = 0; i < cantidad; i++) {
             if (jugadores[jugadorIndex]) {
                 const jugador = jugadores[jugadorIndex].Jugador;  // Nombre del jugador
-                contenidoArchivo += `${jugador}:${rango}\n`;  // Formato jugador:precio
+                let totalPuntos = parseFloat(jugadores[jugadorIndex].total) || 0;
+
+                // Si los puntos del jugador son 0, asignar un valor fijo de 5 millones
+                if (totalPuntos === 0) {
+                    contenidoArchivo += `${jugador}:5\n`;  // Valor 5M si tiene 0 puntos
+                } else {
+                    contenidoArchivo += `${jugador}:${rango}\n`;  // Mantener el valor del rango
+                }
+
                 jugadorIndex++;
             }
         }
     });
 
-    
-
     // Escribir el archivo Valor_jugadores.txt
     const valorJugadoresPath = path.join(__dirname, 'Valor_jugadores.txt');
 
-    // Aquí sobrescribimos el archivo limpiando cualquier contenido previo
-    fs.writeFileSync(valorJugadoresPath, '', 'utf8');
-
+    // Sobrescribir el archivo con los nuevos valores
     fs.writeFileSync(valorJugadoresPath, contenidoArchivo, 'utf8', (err) => {
         if (err) {
             console.error('Error al escribir el archivo Valor_jugadores.txt', err);
         }
     });
-    
 }
+
+
+// Ruta para actualizar los valores de los jugadores
+app.get('/actualizar-valores', (req, res) => {
+    try {
+        actualizarValorJugadores(); // Llama a la función que actualiza los valores
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error al actualizar los valores de los jugadores:', error);
+        res.status(500).json({ success: false, message: 'Error al actualizar los valores de los jugadores.' });
+    }
+});
+
 
 // Ruta para obtener el valor de un jugador por su nombre
 app.get('/obtener-valor-jugador/:nombre', (req, res) => {

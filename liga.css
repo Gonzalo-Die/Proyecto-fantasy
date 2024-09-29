@@ -1,10 +1,18 @@
-/* Manteniendo el estilo de la cabecera */
+
+/* Estilos para la cabecera */
 .cabecera {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around; /* Distribuir botones de manera uniforme */
     align-items: center;
     background-color: #333;
-    padding: 10px 20px;
+    padding: 10px;
+    width: 100%; /* Asegurarse de que la cabecera ocupe todo el ancho */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Añadir sombra para darle más vida */
+}
+
+.nav-izquierda {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
 }
 
 .nav-izquierda button {
@@ -12,23 +20,28 @@
     color: white;
     border: none;
     padding: 10px 20px;
-    margin-right: 10px;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
 }
 
 .nav-izquierda button:hover {
     background-color: #45a049;
 }
 
+/* Alinear el texto de la derecha */
 .nav-derecha {
     color: white;
     font-size: 16px;
 }
 
+/* Estilo para el nombre de usuario (si lo necesitas en otro contexto) */
 #nombre-usuario {
     margin-right: 20px;
 }
+
+
 
 /* Mejorar el estilo del título "Ranking de la Liga" */
 h1 {

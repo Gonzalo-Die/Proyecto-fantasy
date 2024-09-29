@@ -1,27 +1,27 @@
-Die:26
-Capape:26
 Tomas:26
-Richter:26
-Reina:22
-Luis Moreno:22
-Torres:22
-Arteta:22
-Juan:18
-Montero:18
-Roma:18
-Rome:18
-Jalons:14
-Eslava:14
-Chete:14
-Ignacio Die:14
-Siegrist:10
-Rubira:10
-Jose Luis:10
-Asier:10
-Alfonso:8
-Hugo:8
-Montis:8
-Herrera:8
+Jalons:26
+Asier:26
+Juan:26
+Hernan:22
+Rome:22
+Jose Luis:22
+Montis:22
+Luis Moreno:18
+Reina:18
+Eslava:18
+Hugo:18
+Richter:14
+Die:14
+Capape:14
+Siegrist:14
+Torres:5
+Arteta:5
+Montero:5
+Roma:5
+Chete:5
+Ignacio Die:5
+Rubira:5
+Alfonso:5
+Herrera:5
 Berned:5
 Moreno:5
-Hernan:5
