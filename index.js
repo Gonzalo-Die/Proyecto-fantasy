@@ -491,41 +491,51 @@ async function obtenerEquipoPorJornada(usuario, jornada) {
     }
     return null;
 }
-
-
 // Ruta para actualizar el ranking de los usuarios
 app.get('/actualizar-ranking', requireLogin, async (req, res) => {
     const puntuacionFilePath = path.join(__dirname, 'puntuacion.txt');
     const jornadasPasadas = await obtenerJornadasPasadas(); // Función que obtiene jornadas que ya han pasado
+    const loginFilePath = path.join(__dirname, 'login.txt');
 
     console.log("Jornadas pasadas obtenidas:", jornadasPasadas);
 
-    // Leer todos los archivos de usuarios en la carpeta "usuarios"
-    const userDir = path.join(__dirname, 'usuarios');
-    const usuariosArchivos = fs.readdirSync(userDir).filter(file => file.endsWith('.txt'));
+    // Leer el archivo login.txt
+    const contenidoLogin = fs.readFileSync(loginFilePath, 'utf-8');
     
-    console.log("Archivos de usuarios encontrados:", usuariosArchivos);
+    // Separar los usuarios (formato usuario:contraseña)
+    const usuarios = contenidoLogin
+        .split('\n')
+        .map(line => line.split(':')[0].trim()) // Obtener solo los nombres de usuario
+        .filter(usuario => usuario); // Filtrar posibles líneas vacías
+
+    console.log("Usuarios obtenidos desde login.txt:", usuarios);
 
     let puntuaciones = {};
 
     // Inicializar las puntuaciones de todos los usuarios a 0 antes de sumar las jornadas
-    for (let archivoUsuario of usuariosArchivos) {
-        const usuario = path.basename(archivoUsuario, '.txt');
+    for (let usuario of usuarios) {
         puntuaciones[usuario] = 0;  // Establecer la puntuación inicial a 0
     }
 
     console.log("Puntuaciones inicializadas a 0:", puntuaciones);
 
     // Para cada usuario, sumar los puntos de todas las jornadas pasadas
-    for (let archivoUsuario of usuariosArchivos) {
-        const usuario = path.basename(archivoUsuario, '.txt');
+    for (let usuario of usuarios) {
         let puntosTotalesUsuario = 0;  // Comenzar con 0 puntos para cada usuario
 
         console.log(`Procesando usuario: ${usuario}, Puntos actuales: ${puntosTotalesUsuario}`);
 
-        const userFile = path.join(userDir, archivoUsuario);
-        const contenido = fs.readFileSync(userFile, 'utf-8');
-        
+        const userFilePath = path.join(__dirname, 'usuarios', `${usuario}.txt`);
+
+        // Verificar si el archivo del usuario existe
+        if (!fs.existsSync(userFilePath)) {
+            console.log(`Archivo para el usuario ${usuario} no encontrado. Puntuación: 0`);
+            puntuaciones[usuario] = 0;  // Mantener la puntuación en 0 si no existe archivo
+            continue;  // Saltar a la siguiente iteración
+        }
+
+        const contenido = fs.readFileSync(userFilePath, 'utf-8');
+
         // Verificar si el archivo de usuario está vacío
         if (!contenido.trim()) {
             console.log(`Archivo vacío o mal formateado para el usuario: ${usuario}`);
@@ -584,4 +594,3 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
     // Enviar el ranking al frontend
     res.json({ ranking });
 });
-
