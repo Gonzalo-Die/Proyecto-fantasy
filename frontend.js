@@ -689,9 +689,14 @@ function verificarRangoConfirmacion(jornada) {
                 if (fechaActual >= fechaInicio && fechaActual <= fechaFin) {
                     // Dentro del rango de fechas, habilitamos los botones
                     habilitarBotonConfirmacion();
+                }else if (fechaActual > fechaFin){
+                    // Fuera del rango, deshabilitamos los botones
+                    deshabilitarBotonConfirmacion("Jornada ya ocurrida");
+                    deshabilitarBotonesSeleccion();                    
                 } else {
                     // Fuera del rango, deshabilitamos los botones
                     deshabilitarBotonConfirmacion("No se puede confirmar equipo hasta  " + fechaInicio.toLocaleDateString());
+                    
                 }
             }
         })

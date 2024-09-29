@@ -1,0 +1,8 @@
+{
+  "2": {
+    "defensa": "Die",
+    "medio": "Eslava",
+    "delantero": "Alfonso",
+    "confirmado": false
+  }
+}

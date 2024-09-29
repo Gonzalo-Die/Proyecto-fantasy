@@ -8,7 +8,6 @@ siegrist25:0
 Chete:0
 Jalons:0
 jrubirac:0
-Jalons1104:0
 AlejandroRichter:0
 Reina:0
 hugo:0
