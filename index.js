@@ -466,13 +466,30 @@ async function calcularPuntosEquipo(equipo, jornada) {
 async function obtenerPuntosJugador(jugador, jornada) {
     // Leer los puntos del archivo Excel correspondiente
     const datosJornada = leerExcelPuntosJornada();
+    
+    // Verificar si el jugador y los datos de la jornada existen antes de proceder
+    if (!jugador || typeof jugador !== 'string' || !jugador) {
+        console.error(`Nombre de jugador inválido: ${jugador}`);
+        return 0;  // Si el jugador es inválido, devolver 0 puntos
+    }
+
+    if (!datosJornada || !Array.isArray(datosJornada)) {
+        console.error("Datos de jornada inválidos o no disponibles");
+        return 0;  // Si los datos de la jornada no están disponibles, devolver 0 puntos
+    }
+
     // Encontrar al jugador en los datos de la jornada
-    const jugadorData = datosJornada.find(j => j.Jugador === jugador.trim());
+    const jugadorData = datosJornada.find(j => j.Jugador === jugador);
+
     if (jugadorData && jugadorData[jornada]) {
         return jugadorData[jornada];  // Retornar los puntos de esa jornada
     }
-    return 0;  // Si no hay datos, devolver 0 puntos
+
+    // Si no hay datos para el jugador, retornar 0 puntos
+    console.log(`No se encontraron datos para el jugador: ${jugador.trim()} en la jornada: ${jornada}`);
+    return 0;
 }
+
 
 
 // Función para obtener el equipo del usuario en una jornada específica
@@ -497,7 +514,7 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
     const jornadasPasadas = await obtenerJornadasPasadas(); // Función que obtiene jornadas que ya han pasado
     const loginFilePath = path.join(__dirname, 'login.txt');
 
-    console.log("Jornadas pasadas obtenidas:", jornadasPasadas);
+   
 
     // Leer el archivo login.txt
     const contenidoLogin = fs.readFileSync(loginFilePath, 'utf-8');
@@ -508,7 +525,7 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
         .map(line => line.split(':')[0].trim()) // Obtener solo los nombres de usuario
         .filter(usuario => usuario); // Filtrar posibles líneas vacías
 
-    console.log("Usuarios obtenidos desde login.txt:", usuarios);
+    
 
     let puntuaciones = {};
 
@@ -517,19 +534,18 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
         puntuaciones[usuario] = 0;  // Establecer la puntuación inicial a 0
     }
 
-    console.log("Puntuaciones inicializadas a 0:", puntuaciones);
+    
 
     // Para cada usuario, sumar los puntos de todas las jornadas pasadas
     for (let usuario of usuarios) {
         let puntosTotalesUsuario = 0;  // Comenzar con 0 puntos para cada usuario
 
-        console.log(`Procesando usuario: ${usuario}, Puntos actuales: ${puntosTotalesUsuario}`);
 
         const userFilePath = path.join(__dirname, 'usuarios', `${usuario}.txt`);
 
         // Verificar si el archivo del usuario existe
         if (!fs.existsSync(userFilePath)) {
-            console.log(`Archivo para el usuario ${usuario} no encontrado. Puntuación: 0`);
+            
             puntuaciones[usuario] = 0;  // Mantener la puntuación en 0 si no existe archivo
             continue;  // Saltar a la siguiente iteración
         }
@@ -538,7 +554,7 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
 
         // Verificar si el archivo de usuario está vacío
         if (!contenido.trim()) {
-            console.log(`Archivo vacío o mal formateado para el usuario: ${usuario}`);
+           
             puntuaciones[usuario] = 0;  // Mantener la puntuación en 0 si el archivo está vacío
             continue;  // Saltar a la siguiente iteración
         }
@@ -547,7 +563,7 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
         try {
             datosUsuario = JSON.parse(contenido);
         } catch (error) {
-            console.error(`Error al parsear JSON para el usuario: ${usuario}`, error);
+            
             puntuaciones[usuario] = 0;  // Mantener la puntuación en 0 si hay un error en el archivo
             continue;  // Saltar a la siguiente iteración
         }
@@ -582,7 +598,7 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
     
     fs.writeFileSync(puntuacionFilePath, nuevoContenido, 'utf-8');
 
-    console.log("Puntuaciones guardadas en puntuacion.txt");
+
 
     // Crear un array ordenado por puntuación para enviar al frontend
     const ranking = Object.entries(puntuaciones)
