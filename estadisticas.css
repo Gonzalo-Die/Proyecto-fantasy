@@ -141,7 +141,6 @@ h1 {
     text-align: left;
 }
 
-
 /* Estilos para la cabecera */
 .cabecera {
     display: flex;
@@ -184,3 +183,62 @@ h1 {
     margin-right: 20px;
 }
 
+/* Ajustar el contenedor para pantallas más pequeñas (móviles) */
+@media (max-width: 600px) {
+    /* Asegurarse de que la tarjeta del jugador ocupe la mayor parte del ancho disponible */
+    .jugador-card {
+        width: 90%; /* Ajustar para que ocupe el 90% del ancho en pantallas pequeñas */
+        max-width: none; /* Eliminar el límite de 600px en pantallas pequeñas */
+    }
+
+    /* Ajustar la información del jugador en pantallas pequeñas */
+    .jugador-info img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .jugador-nombre {
+        font-size: 1.2rem; /* Reducir el tamaño del nombre en pantallas pequeñas */
+    }
+
+    .jugador-valor {
+        font-size: 1rem; /* Ajustar el tamaño de la fuente del valor */
+    }
+
+    /* Ajustar las estadísticas de puntos totales y media */
+    .jugador-puntos-totales, .jugador-puntos-media {
+        font-size: 0.8rem; /* Reducir el tamaño de la fuente */
+    }
+
+    /* Botón de detalles más pequeño en pantallas pequeñas */
+    .jugador-actions button {
+        padding: 6px 12px; /* Reducir el padding para que el botón sea más pequeño */
+        font-size: 0.9rem;
+    }
+}
+
+/* Hacer que las tarjetas tengan un buen aspecto en pantallas medianas a grandes */
+@media (min-width: 601px) {
+    .jugador-card {
+        width: 80%; /* Ajustar para pantallas más grandes */
+        max-width: 800px; /* Hacer que las tarjetas ocupen más espacio */
+    }
+
+    .jugador-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .jugador-nombre {
+        font-size: 1.5rem;
+    }
+
+    .jugador-valor {
+        font-size: 1.2rem;
+    }
+
+    .jugador-actions button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
