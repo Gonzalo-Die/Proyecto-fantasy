@@ -1,4 +1,5 @@
-body {
+/* Main container background */
+body { 
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
@@ -12,22 +13,28 @@ h1 {
     margin: 20px 0;
 }
 
+/* Contenedor de selección */
 .seleccion {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap; /* Asegurar que los elementos se ajusten en pantallas pequeñas */
     margin: 20px 0;
 }
 
+/* Contenedor para cada sección (Defensa, Medio, Delantero) */
 .seleccion-posicion {
     padding: 10px;
     text-align: center;
     width: 250px;
+    max-width: 100%; /* Ajustar al 100% del contenedor en pantallas pequeñas */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
+/* Jugador seleccionado */
 .jugador-seleccionado {
     position: relative;
     display: inline-block;
@@ -37,8 +44,8 @@ h1 {
 
 .jugador-seleccionado img {
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border: 2px solid #ddd;
 }
@@ -87,78 +94,68 @@ h1 {
     background-color: #dcdcdc;
 }
 
-/* Estilo general para el contenedor de los puntos en óvalo */
+/* Contenedor de puntos */
 .puntos-jugador {
-    padding: 10px 20px; /* Ajustar el relleno para que sea un óvalo */
-    border-radius: 30px; /* Para crear un óvalo */
+    padding: 10px 20px;
+    border-radius: 30px;
     display: inline-block;
     font-size: 16px;
     font-weight: bold;
-    color: white; /* El texto será blanco */
+    color: white;
     margin-top: 10px;
     text-align: center;
 }
 
-/* Colores para los diferentes valores de puntos */
+/* Colores para los puntos */
 .puntos-positivo {
-    background-color: #8BC34A; /* Verde claro */
+    background-color: #8BC34A;
 }
 
 .puntos-negativo {
-    background-color: #F44336; /* Rojo claro */
+    background-color: #F44336;
 }
 
 .puntos-neutro {
-    background-color: #FFC107; /* Amarillo claro */
+    background-color: #FFC107;
 }
 
-/* Contenedor del botón confirmar equipo */
+/* Contenedor del botón de confirmar equipo */
 .confirmar-equipo-container {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
 
-/* Botón confirmar equipo */
 .confirmar-equipo-btn {
-    background-color: #007bff; /* Azul */
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 15px 30px;
     font-size: 18px;
-    border-radius: 30px; /* Redondeado */
+    border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Cambiar color cuando el botón se pasa con el ratón */
 .confirmar-equipo-btn:hover {
-    background-color: #0056b3; /* Azul más oscuro */
+    background-color: #0056b3;
 }
 
-
-
-
-
-
-
-
-
-/* Estilos para la cabecera */
+/* Cabecera */
 .cabecera {
     display: flex;
-    justify-content: space-around; /* Distribuir botones de manera uniforme */
+    justify-content: space-around;
     align-items: center;
     background-color: #333;
     padding: 10px;
-    width: 100%; /* Asegurarse de que la cabecera ocupe todo el ancho */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Añadir sombra para darle más vida */
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .nav-izquierda {
     display: flex;
-    gap: 10px; /* Espaciado entre los botones */
+    gap: 10px;
 }
 
 .nav-izquierda button {
@@ -168,7 +165,7 @@ h1 {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
-    border-radius: 5px; /* Bordes redondeados */
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -176,14 +173,47 @@ h1 {
     background-color: #45a049;
 }
 
-/* Alinear el texto de la derecha */
 .nav-derecha {
     color: white;
     font-size: 16px;
 }
 
-/* Estilo para el nombre de usuario (si lo necesitas en otro contexto) */
 #nombre-usuario {
     margin-right: 20px;
 }
 
+/* Estilos Responsive */
+@media (max-width: 600px) {
+    /* Ajustar el ancho de las tarjetas en pantallas pequeñas */
+    .seleccion-posicion {
+        width: 90%; /* Hacer que las tarjetas ocupen más espacio en móviles */
+        margin-bottom: 15px; /* Reducir el margen entre las tarjetas */
+    }
+
+    .jugador-seleccionado img {
+        width: 80px; /* Reducir el tamaño de la imagen en móviles */
+        height: 80px;
+    }
+
+    .confirmar-equipo-btn {
+        padding: 10px 20px; /* Ajustar el tamaño del botón en móviles */
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 2rem; /* Reducir el tamaño del título en móviles */
+    }
+}
+
+/* Estilos para pantallas más grandes */
+@media (min-width: 601px) {
+    /* Asegurarse de que el diseño se vea bien en pantallas medianas y grandes */
+    .seleccion-posicion {
+        width: 250px; /* Ajustar el tamaño en pantallas grandes */
+    }
+
+    .jugador-seleccionado img {
+        width: 120px; /* Tamaño estándar para imágenes en pantallas grandes */
+        height: 120px;
+    }
+}
