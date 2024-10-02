@@ -122,8 +122,8 @@ h1 {
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 20px;
-    width: 60%;
-    max-width: 600px;
+    width: 90%; /* Aumentamos el ancho al 90% */
+    max-width: 700px; /* Un ancho máximo más amplio */
     display: none;
 }
 
@@ -131,7 +131,7 @@ h1 {
 .estadisticas-detalladas table {
     width: 100%;
     color: white;
-    table-layout: fixed;
+    table-layout: fixed; /* Hacer que las columnas sean del mismo tamaño */
     border-collapse: collapse;
 }
 
@@ -215,6 +215,12 @@ h1 {
         padding: 6px 12px; /* Reducir el padding para que el botón sea más pequeño */
         font-size: 0.9rem;
     }
+
+    /* Aumentar el ancho de las estadísticas detalladas */
+    .estadisticas-detalladas {
+        width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+        max-width: none;
+    }
 }
 
 /* Hacer que las tarjetas tengan un buen aspecto en pantallas medianas a grandes */
@@ -240,5 +246,11 @@ h1 {
     .jugador-actions button {
         padding: 10px 20px;
         font-size: 1rem;
+    }
+
+    /* Ampliar estadísticas detalladas en pantallas grandes */
+    .estadisticas-detalladas {
+        width: 90%; /* Ajustar el ancho de las estadísticas */
+        max-width: 900px; /* Aumentar el tamaño máximo */
     }
 }

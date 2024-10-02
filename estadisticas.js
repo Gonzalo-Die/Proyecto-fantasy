@@ -129,12 +129,12 @@ async function renderizarJugadores(jugadores, valoresJugadores) {
                     
                 </tr>
                 <tr>
-                    <td>Porcentaje Titular</td><td>${jugador.porcentajeTitular}%</td>
-                    <td>Porcentaje Victorias</td><td>${jugador.porcentajeVictorias}%</td>
+                    <td>% Titular</td><td>${jugador.porcentajeTitular}%</td>
+                    <td>% Victorias</td><td>${jugador.porcentajeVictorias}%</td>
                 </tr>
                 <tr>
-                    <td>Porcentaje Derrotas</td><td>${jugador.porcentajeDerrotas}%</td>
-                    <td>Porcentaje No Jugados</td><td>${jugador.porcentajeNP}%</td>
+                    <td>% Derrotas</td><td>${jugador.porcentajeDerrotas}%</td>
+                    <td>% No Jugados</td><td>${jugador.porcentajeNP}%</td>
                     
                 </tr>
             </table>
