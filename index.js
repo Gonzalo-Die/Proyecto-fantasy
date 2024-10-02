@@ -42,6 +42,14 @@ function requireLogin(req, res, next) {
     }
     next();
 }
+// Ruta para verificar si el usuario está logueado
+app.get('/verificar-login', (req, res) => {
+    if (req.session.usuario) {
+        res.status(200).json({ autenticado: true });
+    } else {
+        res.status(401).json({ autenticado: false });
+    }
+});
 
 // Ruta del archivo donde se almacenan los usuarios y contraseñas
 const loginFilePath = path.join(__dirname, 'login.txt');
@@ -609,4 +617,101 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
 
     // Enviar el ranking al frontend
     res.json({ ranking });
+});
+
+
+// Función para leer las estadísticas de la nueva hoja del Excel
+function leerEstadisticasJugadores() {
+    const filePath = path.join(__dirname, 'FantasyFA.xlsx');
+    
+    
+    const workbook = xlsx.readFile(filePath);
+    const sheet = workbook.Sheets["Estadisticas"];  // Cambiar a la hoja correcta si no es la primera
+
+    const datos = xlsx.utils.sheet_to_json(sheet, { header: 1 });  // Lee todo como una matriz
+    //console.log("Datos leídos desde el archivo Excel:", datos);
+
+    const estadisticasPorJugador = [];
+
+    // Recorrer la tabla a partir de la segunda fila (fila 1 contiene los encabezados)
+    for (let i = 1; i < datos.length; i++) {
+        const fila = datos[i];
+
+        if (fila[0]) {  // Asegurarse de que la fila tenga un jugador
+            const jugador = {
+                nombre: fila[0],
+                minutos: fila[1] || 0,
+                titular: fila[2] || 0,
+                suplente: fila[3] || 0,
+                victorias: fila[4] || 0,
+                empates: fila[5] || 0,
+                derrotas: fila[6] || 0,
+                goles: fila[7] || 0,
+                asistencias: fila[8] || 0,
+                golesEnContra: fila[10] || 0,
+                amarillas: fila[11] || 0,
+                rojas: fila[12] || 0,
+                porcentajeTitular: fila[13] || 0,
+                porcentajeNP: fila[14] || 0,
+                porcentajeVictorias: fila[15] || 0,
+                porcentajeDerrotas: fila[16] || 0,
+                golesYAsistenciasPorPartido: fila[17] || 0
+            };
+
+            estadisticasPorJugador.push(jugador);
+        }
+    }
+
+    console.log("Estadisticas obtenidas");
+    return estadisticasPorJugador;
+}
+
+module.exports = leerEstadisticasJugadores;
+
+// Endpoint para obtener las estadísticas de los jugadores
+app.get('/estadisticas', (req, res) => {
+    const estadisticas = leerEstadisticasJugadores();
+    res.json({ estadisticas });
+});
+
+// Función para obtener todo el contenido del Excel
+app.get('/obtener-puntos', (req, res) => {
+    const filePath = path.join(__dirname, 'FantasyFA.xlsx');
+    
+    // Leer el archivo Excel completo
+    const workbook = xlsx.readFile(filePath);
+    const sheet = workbook.Sheets["Clasificacion"]; // Cambia el nombre de la hoja si es necesario
+
+    // Convertir todos los datos de la hoja a un formato JSON
+    const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+
+    
+
+    // Devolver todos los datos como respuesta JSON
+    res.json(data);
+});
+
+// Servir el archivo fechas_jornadas.txt
+app.get('/fechas_jornadas.txt', (req, res) => {
+    const filePath = path.join(__dirname, 'fechas_jornadas.txt');
+    res.sendFile(filePath);
+});
+
+
+// Función para obtener la posición de un jugador por su nombre
+app.get('/obtener-posicion-jugador/:nombre', (req, res) => {
+    const nombreJugador = req.params.nombre;
+
+    // Consulta a la base de datos para obtener la posición del jugador por su nombre
+    db.get("SELECT posicion FROM JUGADORES WHERE nombre = ?", [nombreJugador], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        if (row) {
+            res.json({ posicion: row.posicion }); // Devolver la posición del jugador
+        } else {
+            res.status(404).json({ message: 'Jugador no encontrado' }); // Si no se encuentra el jugador
+        }
+    });
 });

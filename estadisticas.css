@@ -1,0 +1,186 @@
+/* Main container background */
+body {
+    background-color: #f4f4f9; /* Fondo gris claro */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2.5rem;
+    margin: 20px 0;
+}
+
+/* Contenedor de jugadores */
+#jugadores-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Estilos para cada tarjeta de jugador */
+.jugador-card {
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 60%;
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+/* Información del jugador */
+.jugador-info {
+    display: flex;
+    align-items: center;
+}
+
+.jugador-info img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+}
+
+.jugador-nombre {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.jugador-valor, .jugador-puntos {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+/* Últimos puntos */
+.jugador-ultimos-puntos {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.punto-box {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.punto-verde {
+    background-color: #00cc44;
+}
+
+.punto-amarillo {
+    background-color: #ffcc00;
+}
+
+.punto-rojo {
+    background-color: #ff3333;
+}
+
+/* Estadísticas del jugador */
+.jugador-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 1.1em;
+    color: #4CAF50;
+    height: 100%;
+}
+
+/* Botón detalles */
+.jugador-actions button {
+    background-color: #ff9800;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.jugador-actions button:hover {
+    background-color: #e68900;
+}
+
+/* Estilo para el div de estadísticas detalladas */
+.estadisticas-detalladas {
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 60%;
+    max-width: 600px;
+    display: none;
+}
+
+/* Estilo de la tabla de estadísticas */
+.estadisticas-detalladas table {
+    width: 100%;
+    color: white;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.estadisticas-detalladas td {
+    padding: 8px;
+    border-bottom: 1px solid #444;
+    text-align: left;
+}
+
+
+/* Estilos para la cabecera */
+.cabecera {
+    display: flex;
+    justify-content: space-around; /* Distribuir botones de manera uniforme */
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    width: 100%; /* Asegurarse de que la cabecera ocupe todo el ancho */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Añadir sombra para darle más vida */
+}
+
+.nav-izquierda {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+}
+
+.nav-izquierda button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+.nav-izquierda button:hover {
+    background-color: #45a049;
+}
+
+/* Alinear el texto de la derecha */
+.nav-derecha {
+    color: white;
+    font-size: 16px;
+}
+
+/* Estilo para el nombre de usuario (si lo necesitas en otro contexto) */
+#nombre-usuario {
+    margin-right: 20px;
+}
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Jugadores</title>
+    <link rel="stylesheet" href="estadisticas.css">
+</head>
+<body>
+     <!-- Cabecera con botones -->
+     <header class="cabecera">
+        <div class="nav-izquierda">
+            <button onclick="window.location.href='liga.html'">Liga</button>
+            <button onclick="window.location.href='estadisticas.html'">Estadísticas</button>
+            <button onclick="window.location.href='inicio.html'">Tu Equipo</button>
+            <button onclick="window.location.href='como-jugar.html'">Cómo Jugar</button> <!-- Botón nuevo -->
+        </div>
+    </header>
+    <div class="container">
+        <h1>Estadísticas de Jugadores</h1>
+        <div id="jugadores-container" class="jugadores-container">
+            <!-- Player cards will be appended here -->
+        </div>
+        
+    </div>
+
+    <script src="estadisticas.js"></script>
+</body>
+</html>
