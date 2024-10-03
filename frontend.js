@@ -177,9 +177,7 @@ function actualizarTextoValorTotal(valorTotalEquipo) {
         totalEquipoDiv.style.color = 'red';
         deshabilitarBotonConfirmacion("Botón no disponible");
     } else {
-        habilitarBotonConfirmacion();
         totalEquipoDiv.style.color = 'green';
-
         
     }
 }
@@ -343,7 +341,7 @@ function habilitarBotonesSeleccion() {
 
 }
 
-
+const equipo_confirmado = false;
 // Función para cargar el equipo desde el archivo de texto y seleccionar los jugadores automáticamente
 async function cargarEquipo(jornada) {
     let defensaAnterior = null;
@@ -376,7 +374,7 @@ async function cargarEquipo(jornada) {
         if (dataActual.equipo) {
             const { defensa, medio, delantero } = dataActual.equipo;
             const confirmado = dataActual.equipo.confirmado; // Accedemos al campo confirmado
-            
+            //equipoConfirmado = confirmado;
             // Verificar si los jugadores actuales son los mismos que en la jornada anterior
             if (defensa && (!equipoConfirmado || defensa.nombre !== defensaAnterior)) {
                 seleccionarJugador('defensa', {
