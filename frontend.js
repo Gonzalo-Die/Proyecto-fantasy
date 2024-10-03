@@ -177,6 +177,7 @@ function actualizarTextoValorTotal(valorTotalEquipo) {
         totalEquipoDiv.style.color = 'red';
         deshabilitarBotonConfirmacion("Botón no disponible");
     } else {
+        habilitarBotonConfirmacion();
         totalEquipoDiv.style.color = 'green';
 
         

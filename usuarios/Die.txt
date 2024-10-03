@@ -1,8 +1,8 @@
 {
   "2": {
     "defensa": "Die",
-    "medio": "Eslava",
-    "delantero": "Alfonso",
+    "medio": "Jalons",
+    "delantero": "Rubira",
     "confirmado": false
   }
 }
