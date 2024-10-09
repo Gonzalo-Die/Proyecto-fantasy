@@ -715,3 +715,26 @@ app.get('/obtener-posicion-jugador/:nombre', (req, res) => {
         }
     });
 });
+
+
+const NodeCache = require("node-cache");
+const rankingCache = new NodeCache({ stdTTL: 60 }); // Caché con una duración de 60 segundos
+
+app.get('/actualizar-ranking', async (req, res) => {
+    try {
+        // Intentar recuperar el ranking de la caché
+        let ranking = rankingCache.get('ranking');
+
+        if (!ranking) {
+            // Si no está en la caché, obtenerlo del servidor y guardarlo en la caché
+            ranking = await obtenerRanking(); // Función que obtiene el ranking de la base de datos
+            rankingCache.set('ranking', ranking);
+        }
+
+        res.json({ ranking });
+
+    } catch (error) {
+        console.error("Error al actualizar el ranking:", error);
+        res.status(500).send('Error al obtener el ranking');
+    }
+});

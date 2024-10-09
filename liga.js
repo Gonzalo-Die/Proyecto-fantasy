@@ -1,6 +1,23 @@
+// Función para mostrar el spinner de carga
+function mostrarSpinner() {
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.classList.remove('hidden');
+    }
+}
+
+// Función para ocultar el spinner de carga
+function ocultarSpinner() {
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.classList.add('hidden');
+    }
+}
+
 // Función para cargar el ranking de usuarios y sus puntos totales
 async function cargarRanking() {
     try {
+        mostrarSpinner(); // Mostrar el spinner antes de la solicitud
         
         // Hacer la solicitud al backend para obtener y actualizar el ranking
         const response = await fetch('/actualizar-ranking');
@@ -41,9 +58,12 @@ async function cargarRanking() {
     } catch (error) {
         alert('Error al cargar el ranking: ' + error.message);
         console.error('Error al cargar el ranking:', error);
+    } finally {
+        ocultarSpinner(); // Ocultar el spinner después de completar la carga
     }
 }
 
+// Esperar a que el contenido del DOM se cargue para ejecutar la función de cargar ranking
 document.addEventListener('DOMContentLoaded', () => {
     cargarRanking();  // Llamar a cargarRanking directamente cuando la página cargue
 });

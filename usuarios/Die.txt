@@ -1,14 +1,14 @@
 {
   "2": {
-    "defensa": "Reina",
-    "medio": "Roma",
-    "delantero": "Tomas",
-    "confirmado": false
+    "defensa": "Juan",
+    "medio": "Capape",
+    "delantero": "Asier",
+    "confirmado": true
   },
   "3": {
     "defensa": "Die",
-    "medio": "Roma",
-    "delantero": "Jose Luis",
+    "medio": "Rome",
+    "delantero": "Hugo",
     "confirmado": true
   }
 }

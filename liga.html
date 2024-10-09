@@ -22,6 +22,7 @@
     
     <!-- Contenedor para los cuadros de ranking -->
     <div id="ranking-container"></div>
+    <div id="spinner" class="hidden"></div> <!-- Spinner para indicar carga -->
 
     <script src="liga.js"></script> <!-- Ruta ajustada para el archivo JS -->
     <script>
@@ -30,7 +31,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.usuario) {
-                    document.getElementById('nombre-usuario').textContent = `Bienvenido, ${data.usuario}`;
+                    document.body.insertAdjacentHTML('afterbegin', `<div class="bienvenida">Bienvenido, ${data.usuario}</div>`);
                 }
             })
             .catch(error => console.error('Error al obtener el nombre de usuario:', error));
