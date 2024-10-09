@@ -2,13 +2,13 @@
   "2": {
     "defensa": "Reina",
     "medio": "Roma",
-    "delantero": "Ignacio Die",
-    "confirmado": true
+    "delantero": "Tomas",
+    "confirmado": false
   },
   "3": {
     "defensa": "Die",
-    "medio": "Capape",
+    "medio": "Roma",
     "delantero": "Jose Luis",
-    "confirmado": false
+    "confirmado": true
   }
 }

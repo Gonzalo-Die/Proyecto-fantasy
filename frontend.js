@@ -175,12 +175,15 @@ function actualizarTextoValorTotal(valorTotalEquipo) {
 
     if (valorTotalEquipo > 50) {
         totalEquipoDiv.style.color = 'red';
-        deshabilitarBotonConfirmacion("Botón no disponible");
     } else {
         totalEquipoDiv.style.color = 'green';
-        
     }
+
+    // En lugar de deshabilitar el botón aquí, usamos la función unificada para verificar todo
+    const jornadaSelect = document.getElementById("jornada-select").value;
+    verificarHabilitacionBotonConfirmacion(jornadaSelect); 
 }
+
 
 // Función para obtener el valor de un jugador por su nombre
 async function obtenerValorJugador(nombreJugador) {
@@ -262,12 +265,10 @@ async function actualizarTotalEquipo(jornada) {
 
 
 
-// Función para guardar automáticamente el equipo después de cada selección
 async function guardarEquipoSeleccionado() {
     const jornadaSelect = document.getElementById("jornada-select");
     const jornada = jornadaSelect.value;
 
-    // Obtener los jugadores seleccionados
     const defensa = document.querySelector("#defensa-seleccionado .nombre-jugador");
     const medio = document.querySelector("#medio-seleccionado .nombre-jugador");
     const delantero = document.querySelector("#delantero-seleccionado .nombre-jugador");
@@ -276,10 +277,13 @@ async function guardarEquipoSeleccionado() {
     const medioNombre = medio ? medio.textContent : null;
     const delanteroNombre = delantero ? delantero.textContent : null;
 
-    // Llamar a la función que guarda el equipo en el backend
     guardarEquipo(jornada, defensaNombre, medioNombre, delanteroNombre);
     await actualizarTotalEquipo(jornada);
+
+    // Verificar si el botón de confirmación debe estar habilitado
+    verificarHabilitacionBotonConfirmacion(jornada); 
 }
+
 
 // Función para hacer el `fetch` y enviar la selección del equipo al backend
 function guardarEquipo(jornada, defensa, medio, delantero) {
@@ -313,11 +317,13 @@ function guardarEquipo(jornada, defensa, medio, delantero) {
 document.getElementById('jornada-select').addEventListener('change', function() {
     const jornadaSeleccionada = this.value;
     if (jornadaSeleccionada) {
-        cargarEquipo(jornadaSeleccionada);  // Llama a cargarEquipo con la jornada seleccionada
+        cargarEquipo(jornadaSeleccionada);  // Mantener esta línea
+        verificarHabilitacionBotonConfirmacion(jornadaSeleccionada); // Agregar esta línea
     } else {
-        limpiarSeleccion();  // Limpiar si no hay jornada seleccionada
+        limpiarSeleccion();  // Mantener esta línea
     }
 });
+
 
 // Función para deshabilitar los botones de selección de jugadores
 function deshabilitarBotonesSeleccion() {
@@ -409,13 +415,12 @@ async function cargarEquipo(jornada) {
 
             // Verificar si el equipo está confirmado y deshabilitar los botones de selección
             if (confirmado) {
-                deshabilitarBotonesSeleccion(); // Deshabilitar botones si el equipo está confirmado
-                deshabilitarBotonConfirmacion("Equipo confirmado");  // Deshabilitar también el botón de confirmación
+                deshabilitarBotonesSeleccion(); // Mantén la deshabilitación de los botones de selección
             } else {
-                // Verificar el rango de fechas para habilitar o deshabilitar el botón de confirmación
-                habilitarBotonesSeleccion();
-                verificarRangoConfirmacion(jornada);
+                habilitarBotonesSeleccion();  // Mantén esta línea
+                verificarHabilitacionBotonConfirmacion(jornada); // Agrega esta línea
             }
+            
         } else {
             limpiarSeleccion(); // Limpiar si no hay equipo guardado
             habilitarBotonesSeleccion(); // Asegurarse de que los botones estén habilitados si no hay equipo guardado
@@ -685,18 +690,7 @@ function verificarRangoConfirmacion(jornada) {
                 fechaFin.setDate(fechaFin.getDate() - 1); // 2 días antes
 
                 const fechaActual = new Date();
-                if (fechaActual >= fechaInicio && fechaActual <= fechaFin) {
-                    // Dentro del rango de fechas, habilitamos los botones
-                    habilitarBotonConfirmacion();
-                }else if (fechaActual > fechaFin){
-                    // Fuera del rango, deshabilitamos los botones
-                    deshabilitarBotonConfirmacion("Jornada ya ocurrida");
-                    deshabilitarBotonesSeleccion();                    
-                } else {
-                    // Fuera del rango, deshabilitamos los botones
-                    deshabilitarBotonConfirmacion("No se puede confirmar equipo hasta  " + fechaInicio.toLocaleDateString());
-                    
-                }
+                verificarHabilitacionBotonConfirmacion(jornada);
             }
         })
         .catch(error => {
@@ -811,6 +805,60 @@ async function actualizarValoresJugadores() {
         console.error('Error en la solicitud para actualizar los valores:', error);
     }
 }
+
+async function verificarHabilitacionBotonConfirmacion(jornada) {
+    // Obtener la fecha de la jornada y verificar si está en el rango correcto
+    const fechaJornadaResponse = await fetch(`/obtener-fecha-jornada/${jornada}`);
+    const fechaJornadaData = await fechaJornadaResponse.json();
+    const fechaJornada = convertirFecha(fechaJornadaData.fecha);
+
+    const fechaActual = new Date();
+    const fechaInicio = new Date(fechaJornada);
+    fechaInicio.setDate(fechaInicio.getDate() - 6); // 7 días antes
+    const fechaFin = new Date(fechaJornada);
+    fechaFin.setDate(fechaFin.getDate() - 1); // 2 días antes
+
+    // Obtener los datos del equipo para verificar si está confirmado
+    const equipoResponse = await fetch(`/obtener-equipo/${jornada}`);
+    const equipoData = await equipoResponse.json();
+    
+    // Verificar si el equipo ya está confirmado
+    if (equipoData.equipo && equipoData.equipo.confirmado) {
+        deshabilitarBotonConfirmacion("Equipo confirmado");
+        return;
+    }
+
+    // Si la fecha actual no está en el rango permitido, deshabilitar el botón
+    if (fechaActual < fechaInicio || fechaActual > fechaFin) {
+        deshabilitarBotonConfirmacion("Fuera del rango de fechas");
+        return;
+    }
+
+    // Obtener el valor total del equipo
+    const { defensa, medio, delantero } = equipoData.equipo || {};
+    let valorTotalEquipo = 0;
+
+    if (defensa) {
+        const valorDefensa = await obtenerValorJugador(defensa.nombre);
+        valorTotalEquipo += parseFloat(valorDefensa);
+    }
+    if (medio) {
+        const valorMedio = await obtenerValorJugador(medio.nombre);
+        valorTotalEquipo += parseFloat(valorMedio);
+    }
+    if (delantero) {
+        const valorDelantero = await obtenerValorJugador(delantero.nombre);
+        valorTotalEquipo += parseFloat(valorDelantero);
+    }
+
+    // Si el valor total del equipo es mayor a 50, deshabilitar el botón
+    if (valorTotalEquipo > 50) {
+        deshabilitarBotonConfirmacion("Valor del equipo superior a 50M");
+    } else {
+        habilitarBotonConfirmacion(); // Si las condiciones se cumplen, habilitar el botón
+    }
+}
+
 
 
 // Ejecutar la actualización de valores de los jugadores al cargar la página
