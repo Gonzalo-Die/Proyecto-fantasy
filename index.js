@@ -462,10 +462,15 @@ async function calcularPuntosEquipo(equipo, jornada) {
     let puntosTotales = 0;
 
     // Obtener los puntos de cada jugador
-    console.log("-------------");
-    puntosTotales += await obtenerPuntosJugador(equipo.defensa, jornada);
-    puntosTotales += await obtenerPuntosJugador(equipo.medio, jornada);
-    puntosTotales += await obtenerPuntosJugador(equipo.delantero, jornada);
+    if (equipo && equipo.confirmado) {
+ 
+        puntosTotales += await obtenerPuntosJugador(equipo.defensa, jornada);
+        puntosTotales += await obtenerPuntosJugador(equipo.medio, jornada);
+        puntosTotales += await obtenerPuntosJugador(equipo.delantero, jornada);
+
+    } else {
+        console.log(`Equipo no confirmado para la jornada ${jornada}. No se sumarán puntos.`);
+    }
 
     return puntosTotales;
 }

@@ -1,54 +1,67 @@
-document.getElementById('register-link').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('login-container').style.display = 'none';
-    document.getElementById('register-container').style.display = 'block';
-});
+// Selección de elementos del DOM para evitar accesos repetitivos
+const loginContainer = document.getElementById('login-container');
+const registerContainer = document.getElementById('register-container');
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
 
-document.getElementById('login-link').addEventListener('click', function(event) {
+// Función para cambiar entre formularios de login y registro
+function toggleForms(event, showRegister) {
     event.preventDefault();
-    document.getElementById('register-container').style.display = 'none';
-    document.getElementById('login-container').style.display = 'block';
-});
+    if (showRegister) {
+        loginContainer.style.display = 'none';
+        registerContainer.style.display = 'block';
+    } else {
+        registerContainer.style.display = 'none';
+        loginContainer.style.display = 'block';
+    }
+}
 
-document.getElementById('login-form').addEventListener('submit', async function(event) {
+// Asignar eventos para cambiar entre formularios
+document.getElementById('register-link').addEventListener('click', (event) => toggleForms(event, true));
+document.getElementById('login-link').addEventListener('click', (event) => toggleForms(event, false));
+
+// Función para enviar datos del formulario al backend
+async function enviarFormulario(url, data) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        return { success: false };
+    }
+}
+
+// Manejo del formulario de login
+loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    });
-
-    const result = await response.json();
+    const result = await enviarFormulario('/login', { username, password });
 
     if (result.success) {
-        window.location.href = 'inicio.html'; // Redirigir a la página principal
+        window.location.href = 'inicio.html';
     } else {
         alert('Usuario o contraseña incorrectos.');
     }
 });
 
-document.getElementById('register-form').addEventListener('submit', async function(event) {
+// Manejo del formulario de registro
+registerForm.addEventListener('submit', async function(event) {
     event.preventDefault();
-    
     const newUsername = document.getElementById('new-username').value;
     const newPassword = document.getElementById('new-password').value;
 
-    const response = await fetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: newUsername, password: newPassword })
-    });
-
-    const result = await response.json();
+    const result = await enviarFormulario('/register', { username: newUsername, password: newPassword });
 
     if (result.success) {
         alert('Registro exitoso. Ahora puedes iniciar sesión.');
-        document.getElementById('register-container').style.display = 'none';
-        document.getElementById('login-container').style.display = 'block';
+        registerContainer.style.display = 'none';
+        loginContainer.style.display = 'block';
     } else {
         alert('Error al registrar el usuario. Intenta con otro nombre.');
     }

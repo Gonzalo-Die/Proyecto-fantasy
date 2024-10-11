@@ -2,7 +2,7 @@
   "2": {
     "defensa": "Juan",
     "medio": "Capape",
-    "delantero": "Asier",
+    "delantero": "Tomas",
     "confirmado": true
   },
   "3": {
@@ -10,5 +10,11 @@
     "medio": "Rome",
     "delantero": "Hugo",
     "confirmado": true
+  },
+  "4": {
+    "defensa": "Reina",
+    "medio": "Jalons",
+    "delantero": "Alfonso",
+    "confirmado": false
   }
 }

@@ -1,4 +1,4 @@
-Die:13
+Die:12
 Ignaciodie:0
 luismoreno:0
 jeslava10:0
@@ -12,3 +12,4 @@ AlejandroRichter:0
 Reina:0
 hugo:0
 Bigromagosa:0
+JJ:0

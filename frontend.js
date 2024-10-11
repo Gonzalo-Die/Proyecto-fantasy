@@ -821,7 +821,7 @@ async function verificarHabilitacionBotonConfirmacion(jornada) {
     // Obtener los datos del equipo para verificar si está confirmado
     const equipoResponse = await fetch(`/obtener-equipo/${jornada}`);
     const equipoData = await equipoResponse.json();
-    
+
     // Verificar si el equipo ya está confirmado
     if (equipoData.equipo && equipoData.equipo.confirmado) {
         deshabilitarBotonConfirmacion("Equipo confirmado");
@@ -834,8 +834,16 @@ async function verificarHabilitacionBotonConfirmacion(jornada) {
         return;
     }
 
-    // Obtener el valor total del equipo
+    // Obtener los jugadores seleccionados del equipo
     const { defensa, medio, delantero } = equipoData.equipo || {};
+
+    // Verificar si los tres jugadores (defensa, medio, delantero) han sido seleccionados
+    if (!defensa || !medio || !delantero) {
+        deshabilitarBotonConfirmacion("Selecciona a los tres jugadores");
+        return;
+    }
+
+    // Verificar el valor total del equipo
     let valorTotalEquipo = 0;
 
     if (defensa) {
@@ -855,7 +863,7 @@ async function verificarHabilitacionBotonConfirmacion(jornada) {
     if (valorTotalEquipo > 50) {
         deshabilitarBotonConfirmacion("Valor del equipo superior a 50M");
     } else {
-        habilitarBotonConfirmacion(); // Si las condiciones se cumplen, habilitar el botón
+        habilitarBotonConfirmacion(); // Si todas las condiciones se cumplen, habilitar el botón
     }
 }
 

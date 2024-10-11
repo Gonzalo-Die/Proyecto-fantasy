@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking de la Liga</title>
     <link rel="icon" href="Img/logo_fomento.png" type="image/png">
-    <link rel="stylesheet" href="liga.css"> <!-- Ruta ajustada para el CSS -->
+    <link rel="stylesheet" href="liga.css">
 </head>
 <body>
     <!-- Cabecera con botones -->
@@ -14,7 +14,7 @@
             <button onclick="window.location.href='liga.html'">Liga</button>
             <button onclick="window.location.href='estadisticas.html'">Estadísticas</button>
             <button onclick="window.location.href='inicio.html'">Tu Equipo</button>
-            <button onclick="window.location.href='como-jugar.html'">Cómo Jugar</button> <!-- Botón nuevo -->
+            <button onclick="window.location.href='como-jugar.html'">Cómo Jugar</button>
         </div>
     </header>
 
@@ -22,11 +22,10 @@
     
     <!-- Contenedor para los cuadros de ranking -->
     <div id="ranking-container"></div>
-    <div id="spinner" class="hidden"></div> <!-- Spinner para indicar carga -->
+    <div id="spinner" class="hidden"></div>
 
-    <script src="liga.js"></script> <!-- Ruta ajustada para el archivo JS -->
+    <script src="liga.js"></script>
     <script>
-        // Obtener el nombre de usuario desde la sesión
         fetch('/obtener-usuario')
             .then(response => response.json())
             .then(data => {
