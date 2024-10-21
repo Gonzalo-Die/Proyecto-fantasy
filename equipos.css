@@ -1,68 +1,140 @@
+/* Estilos generales para la página */
 body {
-    background-color: #f4f4f4;
+    background-color: #f4f4f9;
     font-family: Arial, sans-serif;
-    color: #333;
     margin: 0;
     padding: 0;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
-
-header .nav-izquierda button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-header .nav-izquierda button:hover {
-    background-color: #0056b3;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #007bff;
+    color: #333;
+    font-size: 2.5rem;
+    margin: 20px 0;
 }
 
+/* Contenedor principal de equipos */
 #equipos-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-}
-
-.equipo-item {
-    background-color: #007bff;
-    color: white;
     padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.equipo-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+/* Estilo de cada tarjeta de equipo */
+.equipo-item {
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+/* Estilo de cada jugador dentro de la tarjeta de equipo */
+.jugador-info {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    gap: 15px;
+}
+
+.jugador-info img {
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.jugador-nombre {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.jugador-puntos {
+    font-size: 0.9rem;
+    color: #ffcc00;
 }
 
 .equipo-item h2 {
-    margin: 0;
-    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.equipo-item p {
-    margin: 5px 0;
+.puntos-totales {
+    color: #4CAF50; /* Verde similar al de la imagen */
+    font-size: 1.2rem; /* Ajustar el tamaño de la fuente */
+    font-weight: bold; /* Asegurar que el texto sea negrita */
 }
+
+
+
+/* Adaptar el contenedor para pantallas más pequeñas (móviles) */
+@media (max-width: 600px) {
+    .equipo-item {
+        width: 95%; /* Ajustar el ancho en pantallas móviles */
+    }
+
+    .jugador-info img {
+        width: 50px; /* Redimensionar la imagen en móviles */
+        height: 50px;
+    }
+
+    .jugador-nombre {
+        font-size: 1rem;
+    }
+
+    .jugador-puntos {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Estilos para la cabecera */
+.cabecera {
+    display: flex;
+    justify-content: space-around; /* Distribuir botones de manera uniforme */
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    width: 100%; /* Asegurarse de que la cabecera ocupe todo el ancho */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Añadir sombra para darle más vida */
+}
+
+.nav-izquierda {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+}
+
+.nav-izquierda button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+.nav-izquierda button:hover {
+    background-color: #45a049;
+}
+
+/* Alinear el texto de la derecha */
+.nav-derecha {
+    color: white;
+    font-size: 16px;
+}
+
+/* Estilo para el nombre de usuario (si lo necesitas en otro contexto) */
+#nombre-usuario {
+    margin-right: 20px;
+}
+

@@ -1,0 +1,8 @@
+{
+  "4": {
+    "defensa": "Die",
+    "medio": "Rome",
+    "delantero": "Alfonso",
+    "confirmado": true
+  }
+}

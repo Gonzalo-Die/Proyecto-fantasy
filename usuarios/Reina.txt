@@ -1,12 +1,12 @@
 {
   "3": {
     "defensa": "Luis Moreno",
-    "medio": "Roma",
-    "delantero": "Ignacio Die",
+    "medio": "Rome",
+    "delantero": "Moreno",
     "confirmado": true
   },
   "4": {
-    "defensa": "Die",
+    "defensa": "Reina",
     "medio": "Jalons",
     "delantero": "Alfonso",
     "confirmado": true

@@ -20,6 +20,7 @@ h1 {
     align-items: center;
     width: 100%;
     padding: 20px;
+    flex-wrap: wrap; /* Permitir que los elementos salten a la siguiente fila si es necesario */
 }
 
 /* Estilos para cada tarjeta de jugador */
@@ -28,31 +29,36 @@ h1 {
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 10px;
-    width: 60%;
-    max-width: 600px;
+    width: 95%; /* Ajustar el ancho en pantallas pequeñas */
+    max-width: none; /* Eliminar el límite de ancho en pantallas pequeñas */
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: white;
+    flex-wrap: wrap; /* Flex wrap para ajustar mejor en pantallas pequeñas */
 }
 
 /* Información del jugador */
 .jugador-info {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .jugador-info img {
+    -webkit-border-radius: 50%; /* Compatibilidad con iOS Safari */
     border-radius: 50%;
     width: 80px;
     height: 80px;
     margin-right: 20px;
+    object-fit: cover; /* Mantener el aspecto de la imagen dentro del contenedor */
 }
 
 .jugador-nombre {
     font-size: 1.5rem;
     font-weight: bold;
+    word-wrap: break-word; /* Evitar que los nombres largos desborden */
 }
 
 .jugador-valor, .jugador-puntos {
@@ -122,8 +128,9 @@ h1 {
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 20px;
-    width: 90%; /* Aumentamos el ancho al 90% */
-    max-width: 700px; /* Un ancho máximo más amplio */
+    width: 100%; /* Aumentar el ancho en pantallas pequeñas */
+    max-width: 100%; /* Evitar restricciones de ancho máximo */
+    overflow-x: auto; /* Permitir desplazamiento horizontal si es necesario */
     display: none;
 }
 
@@ -187,7 +194,7 @@ h1 {
 @media (max-width: 600px) {
     /* Asegurarse de que la tarjeta del jugador ocupe la mayor parte del ancho disponible */
     .jugador-card {
-        width: 90%; /* Ajustar para que ocupe el 90% del ancho en pantallas pequeñas */
+        width: 95%; /* Ajustar para que ocupe el 95% del ancho en pantallas pequeñas */
         max-width: none; /* Eliminar el límite de 600px en pantallas pequeñas */
     }
 

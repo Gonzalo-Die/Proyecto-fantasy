@@ -58,13 +58,12 @@ function verificarUsuario(username, password) {
     if (!fs.existsSync(loginFilePath)) return false;
 
     const usuarios = fs.readFileSync(loginFilePath, 'utf-8').split('\n');
-    console.log(usuarios);
-    console.log(username + " ---- " + password);
+    
 
     for (const usuario of usuarios) {
         const [storedUsername, storedPassword] = usuario.split(':').map(value => value.trim()); // Eliminar espacios en blanco y caracteres especiales
 
-        console.log(`Comparando ${storedUsername} con ${username} y ${storedPassword} con ${password}`);
+        
 
         if (storedUsername === username && storedPassword === password) {
             return true;
@@ -515,12 +514,15 @@ async function obtenerEquipoPorJornada(usuario, jornada) {
         
         if (contenido.trim()) {
             const datosUsuario = JSON.parse(contenido);
-            console.log(datosUsuario[jornada]);
             return datosUsuario[jornada] || null;
         }
     }
     return null;
 }
+
+
+
+
 // Ruta para actualizar el ranking de los usuarios
 app.get('/actualizar-ranking', requireLogin, async (req, res) => {
     const puntuacionFilePath = path.join(__dirname, 'puntuacion.txt');
@@ -589,7 +591,6 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
                 if (equipo) {
                     const puntosJornada = await calcularPuntosEquipo(equipo, jornada);
                     puntosTotalesUsuario += puntosJornada;
-                    console.log(`Usuario: ${usuario}, Jornada: ${jornada}, Puntos de la jornada: ${puntosJornada}, Puntos acumulados: ${puntosTotalesUsuario}`);
                 }
             }
         } else {
@@ -602,7 +603,6 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
         puntuaciones[usuario] = puntosTotalesUsuario;
     }
 
-    console.log("Puntuaciones actualizadas:", puntuaciones);
 
     // Guardar las nuevas puntuaciones en el archivo puntuacion.txt
     const nuevoContenido = Object.entries(puntuaciones)
@@ -618,7 +618,7 @@ app.get('/actualizar-ranking', requireLogin, async (req, res) => {
         .map(([nombre, puntos]) => ({ nombre, puntuacion: puntos }))
         .sort((a, b) => b.puntuacion - a.puntuacion);
 
-    console.log("Ranking generado:", ranking);
+
 
     // Enviar el ranking al frontend
     res.json({ ranking });
@@ -634,7 +634,7 @@ function leerEstadisticasJugadores() {
     const sheet = workbook.Sheets["Estadisticas"];  // Cambiar a la hoja correcta si no es la primera
 
     const datos = xlsx.utils.sheet_to_json(sheet, { header: 1 });  // Lee todo como una matriz
-    //console.log("Datos leídos desde el archivo Excel:", datos);
+   
 
     const estadisticasPorJugador = [];
 
@@ -667,7 +667,6 @@ function leerEstadisticasJugadores() {
         }
     }
 
-    console.log("Estadisticas obtenidas");
     return estadisticasPorJugador;
 }
 
@@ -741,5 +740,47 @@ app.get('/actualizar-ranking', async (req, res) => {
     } catch (error) {
         console.error("Error al actualizar el ranking:", error);
         res.status(500).send('Error al obtener el ranking');
+    }
+});
+
+
+// Función para obtener todos los equipos confirmados de un usuario
+async function obtenerEquiposConfirmados(usuario) {
+    const userDir = path.join(__dirname, 'usuarios');
+    const userFile = path.join(userDir, `${usuario}.txt`);
+    const equiposConfirmados = [];
+
+    if (fs.existsSync(userFile)) {
+        const contenido = fs.readFileSync(userFile, 'utf-8');
+        
+        if (contenido.trim()) {
+            const datosUsuario = JSON.parse(contenido);
+
+            // Iterar sobre todas las jornadas del usuario
+            for (const jornada in datosUsuario) {
+                const equipo = datosUsuario[jornada];
+                
+                // Si el equipo está confirmado, agregarlo a la lista de equipos confirmados
+                if (equipo && equipo.confirmado) {
+                    equiposConfirmados.push({ jornada: jornada, equipo: equipo });
+                }
+            }
+        }
+    }
+
+    return equiposConfirmados; // Devuelve todos los equipos confirmados del usuario
+}
+
+// Ruta GET para obtener los equipos confirmados de un usuario
+app.get('/obtener-equipos-confirmados/:usuario', async  (req, res) => {
+    const usuario = req.params.usuario;
+
+    try {
+        const equipos = await obtenerEquiposConfirmados(usuario);
+        console.log(equipos);
+        res.json({ equipos: equipos });
+    } catch (error) {
+        console.error('Error al obtener equipos confirmados:', error);
+        res.status(500).json({ error: 'Error al obtener equipos confirmados' });
     }
 });

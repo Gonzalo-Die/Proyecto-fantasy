@@ -4,7 +4,6 @@ app.get('/jugadores', (req, res) => {
             res.status(500).json({ error: err.message });
             return;
         }
-        console.log(rows); // Añade esta línea para mostrar los datos en la consola
         res.json({
             data: rows
         });

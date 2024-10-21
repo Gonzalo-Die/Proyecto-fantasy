@@ -37,6 +37,7 @@ function renderUltimosPuntos(puntos) {
         puntosConPadding.unshift(0); // Add 0 for missing games at the start
     }
 
+
     // Generate HTML for the last 5 matches with CSS classes
     return puntosConPadding.map(punto => {
         let claseColor = punto > 0 ? 'punto-verde' : punto < 0 ? 'punto-rojo' : 'punto-amarillo';
@@ -121,7 +122,7 @@ async function renderizarJugadores(jugadores, valoresJugadores) {
                 </tr>
                 <tr>
                     <td>Goles en contra</td><td>${jugador.golesEnContra}</td>
-                    <td>G + A por Partido</td><td>${jugador.golesYAsistenciasPorPartido}</td>
+                    <td>G + A por Partido</td><td>${jugador.golesYAsistenciasPorPartido.toFixed(2)}</td>
                 </tr>
                 <tr>
                     <td>Amarillas</td><td>${jugador.amarillas}</td>
@@ -129,12 +130,12 @@ async function renderizarJugadores(jugadores, valoresJugadores) {
                     
                 </tr>
                 <tr>
-                    <td>% Titular</td><td>${jugador.porcentajeTitular}%</td>
-                    <td>% Victorias</td><td>${jugador.porcentajeVictorias}%</td>
+                    <td>% Titular</td><td>${jugador.porcentajeTitular.toFixed(2)}%</td>
+                    <td>% Victorias</td><td>${jugador.porcentajeVictorias.toFixed(2)}%</td>
                 </tr>
                 <tr>
-                    <td>% Derrotas</td><td>${jugador.porcentajeDerrotas}%</td>
-                    <td>% No Jugados</td><td>${jugador.porcentajeNP}%</td>
+                    <td>% Derrotas</td><td>${jugador.porcentajeDerrotas.toFixed(2)}%</td>
+                    <td>% No Jugados</td><td>${jugador.porcentajeNP.toFixed(2)}%</td>
                     
                 </tr>
             </table>
@@ -197,14 +198,21 @@ async function obtenerJornadasOcurridas() {
 
         fechasArray.forEach(linea => {
             const [jornada, fecha] = linea.split(':');
-            const [dia, mes, año] = fecha.trim().split('/'); // Suponiendo que el formato es DD/MM/YYYY
-            const fechaJornada = new Date(`${año}-${mes}-${dia}`); // Convertimos a formato YYYY-MM-DD
-            
+            const [dia, mes, año] = fecha.trim().split('/');
+
+            // Asegurarse de que el día y mes tengan siempre dos dígitos
+            const diaFormateado = dia.padStart(2, '0');
+            const mesFormateado = mes.padStart(2, '0');
+
+            // Crear la fecha en formato ISO compatible (YYYY-MM-DD)
+            const fechaJornada = new Date(`${año}-${mesFormateado}-${diaFormateado}`);
+
             // Si la fecha de la jornada es anterior o igual a hoy, la consideramos ocurrida
             if (fechaJornada <= hoy) {
                 jornadasOcurridas.push(parseInt(jornada));
             }
         });
+
 
         return jornadasOcurridas;
     } catch (error) {
@@ -212,6 +220,7 @@ async function obtenerJornadasOcurridas() {
         return [];
     }
 }
+
 
 async function obtenerEstadisticas() {
     try {
@@ -254,13 +263,15 @@ async function obtenerEstadisticas() {
 
 
 async function obtenerPuntos() {
-    const puntosResponse = await fetch('/obtener-puntos'); // Ajusta si es necesario
+    const puntosResponse = await fetch(`/obtener-puntos?cacheBuster=${Date.now()}`, { cache: 'no-store' });
+
     const puntosData = await puntosResponse.json();
 
     // Crear un diccionario para almacenar los puntos por jugador
     const puntosPorJugador = {};
 
     const jornadasOcurridas = await obtenerJornadasOcurridas();
+
 
     // Ignoramos el primer elemento (los encabezados) y verificamos que el nombre del jugador no esté vacío
     puntosData.slice(1).forEach(jugador => { // Usamos slice(1) para omitir los encabezados
@@ -279,6 +290,7 @@ async function obtenerPuntos() {
 
         }
     });
+
 
     return puntosPorJugador;
 }

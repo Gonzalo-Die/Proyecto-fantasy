@@ -478,15 +478,15 @@ function limpiarSeleccion() {
 
 // Función para mostrar los datos del Excel
 function mostrarDatosExcel() {
-    console.log("Leyendo los datos del Excel...");  // Verificar si se llama a la función
+    
 
     fetch('/datos_excel')
         .then(response => {
-            console.log("Respuesta recibida del servidor:", response);
+            
             return response.json();
         })
         .then(data => {
-            console.log("Datos del Excel recibidos:", data);
+            
 
             const datosExcel = data.data;
 
