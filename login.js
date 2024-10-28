@@ -57,6 +57,7 @@ registerForm.addEventListener('submit', async function(event) {
     const newPassword = document.getElementById('new-password').value;
 
     const result = await enviarFormulario('/register', { username: newUsername, password: newPassword });
+    
 
     if (result.success) {
         alert('Registro exitoso. Ahora puedes iniciar sesión.');

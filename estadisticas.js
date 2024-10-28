@@ -1,5 +1,19 @@
+// Función para mostrar el spinner
+function mostrarSpinner() {
+    const spinner = document.getElementById('spinner');
+    spinner.style.visibility = 'visible';
+}
+
+// Función para ocultar el spinner
+function ocultarSpinner() {
+    const spinner = document.getElementById('spinner');
+    spinner.style.visibility = 'hidden';
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        mostrarSpinner(); // Mostrar el spinner al inicio de la carga
+
         // Verificar si el usuario está autenticado
         const respuestaLogin = await fetch('/verificar-login');
         const resultadoLogin = await respuestaLogin.json();
@@ -15,13 +29,54 @@ document.addEventListener('DOMContentLoaded', async () => {
         const valoresJugadores = await asignarValoresParaJornadasOcurridas(); // Obtener valores
         const puntosJugadores = await obtenerPuntos(); // Obtener puntos de los jugadores
 
-        // Renderizar las tarjetas de jugadores
-        renderizarJugadores(jugadores, valoresJugadores);
+        ocultarSpinner(); // Ocultar el spinner después de cargar los datos
+
+        // Inicialmente mostrar las estadísticas de jugadores
+        mostrarEstadisticas(jugadores, valoresJugadores);
+
+        // Configurar los botones para alternar vistas
+        document.getElementById('boton-estadisticas').addEventListener('click', async () => {
+            mostrarSpinner(); // Mostrar el spinner cuando se cambia a estadísticas
+            await mostrarEstadisticas(jugadores, valoresJugadores);
+            ocultarSpinner(); // Ocultar el spinner después de cargar
+        });
+
+        document.getElementById('boton-rankings').addEventListener('click', async () => {
+            mostrarSpinner(); // Mostrar el spinner cuando se cambia a rankings
+            await mostrarRankings(jugadores);
+            ocultarSpinner(); // Ocultar el spinner después de cargar
+        });
 
     } catch (error) {
-        alert('Error al obtener estadísticas o puntos: ' + error.message); // Verificar si hay algún error en el proceso
+        ocultarSpinner(); // Asegurarse de ocultar el spinner en caso de error
+        alert('Error al obtener estadísticas o puntos: ' + error.message);
     }
 });
+
+// Función para mostrar las estadísticas
+async function mostrarEstadisticas(jugadores, valoresJugadores) {
+    const jugadoresContainer = document.getElementById('jugadores-container');
+    const rankingsContainer = document.getElementById('rankings-container');
+
+    // Mostrar el contenedor de estadísticas y ocultar el de rankings
+    jugadoresContainer.style.display = 'block';
+    rankingsContainer.style.display = 'none';
+
+    renderizarJugadores(jugadores, valoresJugadores);
+}
+
+// Función para mostrar los rankings
+async function mostrarRankings(jugadores) {
+    const jugadoresContainer = document.getElementById('jugadores-container');
+    const rankingsContainer = document.getElementById('rankings-container');
+
+    // Mostrar el contenedor de rankings y ocultar el de estadísticas
+    jugadoresContainer.style.display = 'none';
+    rankingsContainer.style.display = 'block';
+
+    renderizarRankings(jugadores);
+}
+
 
 
 
@@ -444,4 +499,68 @@ async function obtenerPosicionJugador(nombreJugador) {
         console.error('Error al obtener la posición del jugador:', error);
         return 'Posición no encontrada'; // En caso de error, devolver un mensaje por defecto
     }
+}
+
+function renderizarRankings(jugadores) {
+    const rankingsContainer = document.getElementById('rankings-container');
+    rankingsContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos rankings
+
+    // Definir las categorías para los rankings
+    const categorias = [
+        { key: 'minutos', titulo: 'Top 3 - Minutos Jugados' },
+        { key: 'goles', titulo: 'Top 3 - Goles' },
+        { key: 'asistencias', titulo: 'Top 3 - Asistencias' }, // Cambio aquí para usar solo asistencias
+        { key: 'amarillas', titulo: 'Top 3 - Tarjetas Amarillas' },
+        { key: 'rojas', titulo: 'Top 3 - Tarjetas Rojas' }
+    ];
+
+    // Generar rankings para cada categoría
+    categorias.forEach(categoria => {
+        const ranking = obtenerTop3(jugadores, categoria.key);
+        if (ranking.length > 0) {
+            rankingsContainer.insertAdjacentHTML('beforeend', `
+                <div class="ranking-section">
+                    <h2>${categoria.titulo}</h2>
+                    ${ranking.map((jugador, index) => `
+                        <div class="ranking-item">
+                            <div class="ranking-position ${index === 0 ? 'ranking-oro' : index === 1 ? 'ranking-plata' : 'ranking-bronce'}">#${index + 1}</div>
+                            <div class="ranking-info">
+                                <span>${jugador.nombre} - ${jugador[categoria.key]}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `);
+        }
+    });
+}
+
+// Función para obtener el top 3 de jugadores según una categoría específica
+function obtenerTop3(jugadores, categoria) {
+    // Filtrar jugadores que tengan valores válidos para la categoría
+    const jugadoresFiltrados = Object.keys(jugadores)
+        .map(nombre => ({
+            nombre: nombre,
+            [categoria]: jugadores[nombre][categoria]
+        }))
+        .filter(jugador => jugador[categoria] !== undefined);
+
+    // Ordenar los jugadores de mayor a menor según el valor de la categoría
+    jugadoresFiltrados.sort((a, b) => b[categoria] - a[categoria]);
+
+    // Retornar solo los primeros 3 jugadores
+    return jugadoresFiltrados.slice(0, 3);
+}
+
+
+// Función para mostrar el spinner
+function mostrarSpinner() {
+    const spinner = document.getElementById('spinner');
+    spinner.style.visibility = 'visible';
+}
+
+// Función para ocultar el spinner
+function ocultarSpinner() {
+    const spinner = document.getElementById('spinner');
+    spinner.style.visibility = 'hidden';
 }

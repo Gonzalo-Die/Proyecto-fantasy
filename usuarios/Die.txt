@@ -1,14 +1,20 @@
 {
+  "2": {
+    "defensa": "Richter",
+    "medio": "Chete",
+    "delantero": "Ignacio Die",
+    "confirmado": false
+  },
   "3": {
     "defensa": "Luis Moreno",
-    "medio": "Roma",
+    "medio": "Chete",
     "delantero": "Ignacio Die",
     "confirmado": true
   },
   "4": {
-    "defensa": "Die",
-    "medio": "Jalons",
-    "delantero": "Alfonso",
+    "defensa": "Luis Moreno",
+    "medio": "Roma",
+    "delantero": "Ignacio Die",
     "confirmado": true
   },
   "5": {
@@ -16,5 +22,29 @@
     "medio": "Chete",
     "delantero": "Hugo",
     "confirmado": true
+  },
+  "6": {
+    "defensa": null,
+    "medio": "Chete",
+    "delantero": null,
+    "confirmado": false
+  },
+  "7": {
+    "defensa": null,
+    "medio": "Roma",
+    "delantero": null,
+    "confirmado": false
+  },
+  "8": {
+    "defensa": null,
+    "medio": "Chete",
+    "delantero": "Ignacio Die",
+    "confirmado": false
+  },
+  "10": {
+    "defensa": null,
+    "medio": "Chete",
+    "delantero": null,
+    "confirmado": false
   }
 }

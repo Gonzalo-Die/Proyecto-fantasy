@@ -1,4 +1,4 @@
-Die:16
+Die:13
 Ignaciodie:0
 luismoreno:0
 jeslava10:0
@@ -9,7 +9,10 @@ Chete:0
 Jalons:0
 jrubirac:0
 AlejandroRichter:0
-Reina:11
+Reina:13
 hugo:0
 Bigromagosa:0
 JJ:0
+Pepe:0
+Pepe2:0
+Juandiesgay:0

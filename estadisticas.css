@@ -1,9 +1,64 @@
-/* Main container background */
+
+
+/* Estilos para la cabecera */
+.cabecera {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed; /* Fijar la cabecera en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 1100; /* Más alto que el spinner para que siempre esté visible */
+}
+
+.nav-izquierda {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+}
+
+.nav-izquierda button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+.nav-izquierda button:hover {
+    background-color: #45a049;
+}
+
+/* Alinear el texto de la derecha */
+.nav-derecha {
+    color: white;
+    font-size: 16px;
+}
+
+/* Estilo para el nombre de usuario (si lo necesitas en otro contexto) */
+#nombre-usuario {
+    margin-right: 20px;
+}
+
+
+
+/* Estilos base y configuración general */
 body {
     background-color: #f4f4f9; /* Fondo gris claro */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 h1 {
@@ -13,14 +68,49 @@ h1 {
     margin: 20px 0;
 }
 
-/* Contenedor de jugadores */
-#jugadores-container {
+/* Contenedor principal */
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 1200px;
     padding: 20px;
-    flex-wrap: wrap; /* Permitir que los elementos salten a la siguiente fila si es necesario */
+    margin: 0 auto;
+    margin-top: 60px; /* Ajustar el margen superior para dar espacio a la cabecera fija */
+
+}
+
+/* Botones de alternancia entre estadísticas y rankings */
+.botones-switch {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.botones-switch button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.botones-switch button:hover {
+    background-color: #45a049;
+}
+
+/* Contenedor de jugadores */
+.jugadores-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 /* Estilos para cada tarjeta de jugador */
@@ -28,37 +118,34 @@ h1 {
     background-color: #2e2e2e;
     border-radius: 10px;
     padding: 15px;
-    margin-bottom: 10px;
-    width: 95%; /* Ajustar el ancho en pantallas pequeñas */
-    max-width: none; /* Eliminar el límite de ancho en pantallas pequeñas */
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px; /* Aumentar el ancho máximo para que sea consistente con las estadísticas */
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: white;
-    flex-wrap: wrap; /* Flex wrap para ajustar mejor en pantallas pequeñas */
+    flex-wrap: wrap;
 }
 
 /* Información del jugador */
 .jugador-info {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
 }
 
 .jugador-info img {
-    -webkit-border-radius: 50%; /* Compatibilidad con iOS Safari */
     border-radius: 50%;
     width: 80px;
     height: 80px;
     margin-right: 20px;
-    object-fit: cover; /* Mantener el aspecto de la imagen dentro del contenedor */
+    object-fit: cover;
 }
 
 .jugador-nombre {
     font-size: 1.5rem;
     font-weight: bold;
-    word-wrap: break-word; /* Evitar que los nombres largos desborden */
 }
 
 .jugador-valor, .jugador-puntos {
@@ -69,7 +156,6 @@ h1 {
 /* Últimos puntos */
 .jugador-ultimos-puntos {
     display: flex;
-    flex-direction: row-reverse;
     gap: 5px;
     margin-top: 10px;
 }
@@ -127,18 +213,22 @@ h1 {
     background-color: #2a2a2a;
     border-radius: 5px;
     padding: 15px;
-    margin-bottom: 20px;
-    width: 100%; /* Aumentar el ancho en pantallas pequeñas */
-    max-width: 100%; /* Evitar restricciones de ancho máximo */
-    overflow-x: auto; /* Permitir desplazamiento horizontal si es necesario */
-    display: none;
+    margin-top: 10px;
+    margin-bottom: 20px; /* Agregado para crear un espacio entre las tarjetas */
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añadir sombra para darle un efecto */
 }
+
 
 /* Estilo de la tabla de estadísticas */
 .estadisticas-detalladas table {
     width: 100%;
     color: white;
-    table-layout: fixed; /* Hacer que las columnas sean del mismo tamaño */
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
@@ -148,53 +238,100 @@ h1 {
     text-align: left;
 }
 
-/* Estilos para la cabecera */
-.cabecera {
+
+/* Contenedor principal de rankings */
+.rankings-container {
     display: flex;
-    justify-content: space-around; /* Distribuir botones de manera uniforme */
+    flex-direction: column;
     align-items: center;
-    background-color: #333;
-    padding: 10px;
-    width: 100%; /* Asegurarse de que la cabecera ocupe todo el ancho */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Añadir sombra para darle más vida */
+    margin: 20px auto;
+    width: 100%;
+    max-width: 800px;
 }
 
-.nav-izquierda {
+/* Sección individual de cada ranking */
+.ranking-section {
+    background-color: #333; /* Fondo de cada tarjeta de ranking */
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra ligera para dar efecto de elevación */
+}
+
+/* Título de cada ranking */
+.ranking-section h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Cada item del ranking */
+.ranking-item {
     display: flex;
-    gap: 10px; /* Espaciado entre los botones */
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #444;
+    margin: 5px 0;
 }
 
-.nav-izquierda button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px; /* Bordes redondeados */
-    transition: background-color 0.3s ease;
+/* Posición del ranking (ej: #1, #2, #3) */
+.ranking-position {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: gold;
+    margin-right: 10px;
 }
 
-.nav-izquierda button:hover {
-    background-color: #45a049;
+/* Información del jugador en el ranking */
+.ranking-info {
+    flex-grow: 1;
+    color: #fff;
+    font-size: 1rem;
+    text-align: left; /* Alinear el texto a la izquierda para consistencia */
 }
 
-/* Alinear el texto de la derecha */
-.nav-derecha {
-    color: white;
-    font-size: 16px;
+/* Contenedor del spinner */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Para que cubra toda la pantalla sin afectar el layout */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+    z-index: 1000; /* Muy alto para que se sobreponga a todo */
+    visibility: hidden; /* Oculto inicialmente */
 }
 
-/* Estilo para el nombre de usuario (si lo necesitas en otro contexto) */
-#nombre-usuario {
-    margin-right: 20px;
+/* Estilo del spinner */
+.spinner {
+    border: 6px solid #f3f3f3; /* Color gris claro */
+    border-top: 6px solid #3498db; /* Color azul para la animación */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
 }
+
+/* Animación del spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 
 /* Ajustar el contenedor para pantallas más pequeñas (móviles) */
 @media (max-width: 600px) {
     /* Asegurarse de que la tarjeta del jugador ocupe la mayor parte del ancho disponible */
     .jugador-card {
-        width: 95%; /* Ajustar para que ocupe el 95% del ancho en pantallas pequeñas */
+        width: 90%; /* Ajustar para que ocupe el 95% del ancho en pantallas pequeñas */
         max-width: none; /* Eliminar el límite de 600px en pantallas pequeñas */
     }
 
@@ -225,16 +362,41 @@ h1 {
 
     /* Aumentar el ancho de las estadísticas detalladas */
     .estadisticas-detalladas {
-        width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+        width: 90%; /* Ocupa todo el ancho en pantallas pequeñas */
         max-width: none;
+    }
+
+    /* Asegurarse de que el ranking se vea bien en móviles */
+    .ranking-section {
+        padding: 10px;
+    }
+
+    .ranking-section h2 {
+        font-size: 1.2rem; /* Reducir tamaño de fuente en móviles */
+    }
+
+    .ranking-item {
+        flex-direction: row; /* Mantener flex en fila */
+        justify-content: space-between;
+        width: 98%;
+        padding: 8px;
+    }
+
+    .ranking-position {
+        font-size: 1rem;
+        margin-right: 5px;
+    }
+
+    .ranking-info {
+        font-size: 0.9rem;
     }
 }
 
 /* Hacer que las tarjetas tengan un buen aspecto en pantallas medianas a grandes */
 @media (min-width: 601px) {
     .jugador-card {
-        width: 80%; /* Ajustar para pantallas más grandes */
-        max-width: 800px; /* Hacer que las tarjetas ocupen más espacio */
+        width: 100%; /* Ajustar para que ocupe el 100% en pantallas grandes */
+        max-width: 900px; /* Hacer que las tarjetas sean más amplias */
     }
 
     .jugador-info {
@@ -257,7 +419,32 @@ h1 {
 
     /* Ampliar estadísticas detalladas en pantallas grandes */
     .estadisticas-detalladas {
-        width: 90%; /* Ajustar el ancho de las estadísticas */
-        max-width: 900px; /* Aumentar el tamaño máximo */
+        width: 100%; /* Ajustar el ancho de las estadísticas para que sea consistente */
+        max-width: 900px; /* Aumentar el tamaño máximo para alinear con las tarjetas de jugador */
+    }
+
+    /* Ajuste de los rankings en pantallas grandes */
+    .ranking-section {
+        padding: 15px;
+    }
+
+    .ranking-section h2 {
+        font-size: 1.5rem; /* Aumentar tamaño de fuente en pantallas grandes */
+    }
+
+    .ranking-item {
+        flex-direction: row; /* Mantener flex en fila */
+        justify-content: space-between;
+        width: 98%;
+        padding: 10px;
+    }
+
+    .ranking-position {
+        font-size: 1.2rem;
+        margin-right: 10px;
+    }
+
+    .ranking-info {
+        font-size: 1rem;
     }
 }

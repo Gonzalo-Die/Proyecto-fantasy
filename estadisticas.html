@@ -8,21 +8,35 @@
     <link rel="stylesheet" href="estadisticas.css">
 </head>
 <body>
-     <!-- Cabecera con botones -->
-     <header class="cabecera">
+    <!-- Cabecera con botones -->
+    <header class="cabecera">
         <div class="nav-izquierda">
             <button onclick="window.location.href='liga.html'">Liga</button>
             <button onclick="window.location.href='estadisticas.html'">Estadísticas</button>
             <button onclick="window.location.href='inicio.html'">Tu Equipo</button>
-            <button onclick="window.location.href='como-jugar.html'">Cómo Jugar</button> <!-- Botón nuevo -->
+            <button onclick="window.location.href='como-jugar.html'">Cómo Jugar</button>
         </div>
     </header>
     <div class="container">
         <h1>Estadísticas de Jugadores</h1>
+        <!-- Botones para alternar entre estadísticas y rankings -->
+        <div class="botones-switch">
+            <button id="boton-estadisticas">Estadísticas</button>
+            <button id="boton-rankings">Rankings</button>
+        </div>
+        
+        <div id="spinner" class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+        
+        <!-- Contenedor para las estadísticas de jugadores -->
         <div id="jugadores-container" class="jugadores-container">
             <!-- Player cards will be appended here -->
         </div>
-        
+        <!-- Contenedor para los rankings -->
+        <div id="rankings-container" class="rankings-container" style="display: none;">
+            <!-- Rankings will be appended here -->
+        </div>
     </div>
 
     <script src="estadisticas.js"></script>

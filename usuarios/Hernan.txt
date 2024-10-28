@@ -4,5 +4,11 @@
     "medio": "Rome",
     "delantero": "Alfonso",
     "confirmado": true
+  },
+  "5": {
+    "defensa": "Richter",
+    "medio": "Roma",
+    "delantero": "Hugo",
+    "confirmado": false
   }
 }

@@ -23,11 +23,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 jornadasOcurridas.includes(parseInt(equipoInfo.jornada))
             );
 
-            if (equiposFiltrados.length > 0) {
+            // Invertir el array para mostrar de la última jornada a la primera
+            const equiposInvertidos = equiposFiltrados.reverse();
+
+            if (equiposInvertidos.length > 0) {
                 // Obtener los puntos de todos los jugadores
                 const puntosPorJugador = await obtenerPuntos();
 
-                for (const equipoInfo of equiposFiltrados) {
+                for (const equipoInfo of equiposInvertidos) {
                     const { jornada, equipo } = equipoInfo;
                     
                     // Obtener las imágenes y puntos de cada jugador
@@ -47,15 +50,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <h2>Jornada ${jornada} <span class="puntos-totales">Puntos totales: ${puntosTotales}</span></h2>
                             <div class="jugador-info">
                                 <img src="${imagenDefensa}" alt="${equipo.defensa}">
-                                <p>Defensa: ${equipo.defensa} - <span class="puntos">${puntosDefensa} puntos</span></p>
+                                <p>Defensa: ${equipo.defensa} : <span class="puntos">${puntosDefensa} puntos</span></p>
                             </div>
                             <div class="jugador-info">
                                 <img src="${imagenMedio}" alt="${equipo.medio}">
-                                <p>Medio: ${equipo.medio} - <span class="puntos">${puntosMedio} puntos</span></p>
+                                <p>Medio: ${equipo.medio} : <span class="puntos">${puntosMedio} puntos</span></p>
                             </div>
                             <div class="jugador-info">
                                 <img src="${imagenDelantero}" alt="${equipo.delantero}">
-                                <p>Delantero: ${equipo.delantero} - <span class="puntos">${puntosDelantero} puntos</span></p>
+                                <p>Delantero: ${equipo.delantero} : <span class="puntos">${puntosDelantero} puntos</span></p>
                             </div>
                         </div>
                     `);

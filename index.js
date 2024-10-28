@@ -4,6 +4,7 @@ const path = require('path');
 const xlsx = require('xlsx');  // Librería para manejar archivos Excel
 const fs = require('fs');
 const session = require('express-session');
+const lockfile = require('lockfile');
 
 // Inicializar la aplicación Express
 const app = express();
@@ -724,24 +725,7 @@ app.get('/obtener-posicion-jugador/:nombre', (req, res) => {
 const NodeCache = require("node-cache");
 const rankingCache = new NodeCache({ stdTTL: 60 }); // Caché con una duración de 60 segundos
 
-app.get('/actualizar-ranking', async (req, res) => {
-    try {
-        // Intentar recuperar el ranking de la caché
-        let ranking = rankingCache.get('ranking');
 
-        if (!ranking) {
-            // Si no está en la caché, obtenerlo del servidor y guardarlo en la caché
-            ranking = await obtenerRanking(); // Función que obtiene el ranking de la base de datos
-            rankingCache.set('ranking', ranking);
-        }
-
-        res.json({ ranking });
-
-    } catch (error) {
-        console.error("Error al actualizar el ranking:", error);
-        res.status(500).send('Error al obtener el ranking');
-    }
-});
 
 
 // Función para obtener todos los equipos confirmados de un usuario
@@ -772,7 +756,7 @@ async function obtenerEquiposConfirmados(usuario) {
 }
 
 // Ruta GET para obtener los equipos confirmados de un usuario
-app.get('/obtener-equipos-confirmados/:usuario', async  (req, res) => {
+app.get('/obtener-equipos-confirmados/:usuario', async (req, res) => {
     const usuario = req.params.usuario;
 
     try {
