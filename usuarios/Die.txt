@@ -24,9 +24,9 @@
     "confirmado": true
   },
   "6": {
-    "defensa": null,
-    "medio": "Chete",
-    "delantero": null,
+    "defensa": "Torres",
+    "medio": "Jalons",
+    "delantero": "Jose Luis",
     "confirmado": false
   },
   "7": {
@@ -36,9 +36,9 @@
     "confirmado": false
   },
   "8": {
-    "defensa": null,
-    "medio": "Chete",
-    "delantero": "Ignacio Die",
+    "defensa": "Reina",
+    "medio": "Capape",
+    "delantero": "Rubira",
     "confirmado": false
   },
   "10": {

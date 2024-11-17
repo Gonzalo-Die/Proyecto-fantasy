@@ -1,27 +1,27 @@
-Juan:26
-Jose Luis:26
 Tomas:26
-Jalons:26
-Rome:22
+Jose Luis:26
+Juan:26
+Rome:26
+Jalons:22
+Die:22
 Hernan:22
-Siegrist:22
-Montis:22
+Luis Moreno:22
 Reina:18
-Asier:18
-Luis Moreno:18
-Die:18
-Torres:14
-Roma:14
-Arteta:14
+Roma:18
+Ignacio Die:18
+Siegrist:18
 Hugo:14
-Richter:10
+Asier:14
+Torres:14
+Montis:14
+Arteta:10
 Eslava:10
-Ignacio Die:10
+Richter:10
 Berned:10
+Rubira:8
 Capape:8
 Chete:8
 Alfonso:8
-Montero:8
-Rubira:5
+Montero:5
 Herrera:5
 Moreno:5

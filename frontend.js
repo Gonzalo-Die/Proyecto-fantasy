@@ -816,7 +816,7 @@ async function verificarHabilitacionBotonConfirmacion(jornada) {
     const fechaInicio = new Date(fechaJornada);
     fechaInicio.setDate(fechaInicio.getDate() - 6); // 7 días antes
     const fechaFin = new Date(fechaJornada);
-    fechaFin.setDate(fechaFin.getDate() - 1); // 2 días antes
+    fechaFin.setDate(fechaFin.getDate()); // 2 días antes
 
     // Obtener los datos del equipo para verificar si está confirmado
     const equipoResponse = await fetch(`/obtener-equipo/${jornada}`);
@@ -867,10 +867,78 @@ async function verificarHabilitacionBotonConfirmacion(jornada) {
     }
 }
 
+function ajustarJornadaActualDesdeArchivoDirecto() {
+    // Leer el archivo fechas_jornadas.txt directamente
+    fetch('./fechas_jornadas.txt') // Asegúrate de que la ruta sea correcta
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo de fechas.');
+            }
+            return response.text(); // Leer el contenido como texto
+        })
+        .then(contenido => {
+            procesarFechasYSeleccionarJornada(contenido);
+            actualizarPuntosJugadoresSeleccionados();
+        })
+        .catch(error => {
+            alert('Error al leer el archivo de fechas:', error);
+        });
+
+}
+
+function procesarFechasYSeleccionarJornada(contenido) {
+    const lineas = contenido.trim().split('\n');
+    const fechas = lineas.map(linea => {
+        const [jornada, fecha] = linea.split(':');
+        const [dia, mes, año] = fecha.split('/');
+
+        // Asegurar que los valores son numéricos
+        const diaNum = parseInt(dia, 10);
+        const mesNum = parseInt(mes, 10) - 1; // Mes empieza en 0
+        const añoNum = parseInt(año, 10);
+
+        // Crear el objeto Date
+        const fechaObj = new Date(añoNum, mesNum, diaNum);
+        // Validar la fecha
+        if (isNaN(fechaObj.getTime())) {
+            console.error(`Fecha inválida en la línea: "${linea}"`);
+            return { jornada: parseInt(jornada.trim()), fecha: null };
+        }
+
+        return {
+            jornada: parseInt(jornada.trim()),
+            fecha: fechaObj
+        };
+    });
+
+    const hoy = new Date(); // Fecha actual
+    
+    // Determinar la jornada actual
+    for (let i = 0; i < fechas.length; i++) {
+        const fechaJornada = fechas[i].fecha;
+        const fechaSiguiente = fechas[i + 1]?.fecha || new Date(2100, 0, 1); // Fecha lejana para la última jornada
+        const rangoInicio = new Date(fechaJornada);
+        rangoInicio.setDate(rangoInicio.getDate() - 6); // Una semana antes
+        
+        if (hoy >= rangoInicio && hoy < fechaSiguiente) {
+            const jornadaSelect = document.getElementById('jornada-select');
+            if (jornadaSelect) {
+                jornadaSelect.value = (i + 1).toString(); // Ajustar la selección
+                 // Disparar manualmente el evento 'change' para que se ejecuten las funciones
+                 jornadaSelect.dispatchEvent(new Event('change'));
+            }
+            break;
+        }
+    }
+}
+
+
 
 
 // Ejecutar la actualización de valores de los jugadores al cargar la página
 window.onload = function() {
+    ajustarJornadaActualDesdeArchivoDirecto();
     actualizarValoresJugadores();
+
 };
 
