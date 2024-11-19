@@ -36,10 +36,16 @@
     "confirmado": false
   },
   "8": {
+    "defensa": "Torres",
+    "medio": "Jalons",
+    "delantero": "Tomas",
+    "confirmado": true
+  },
+  "9": {
     "defensa": "Reina",
-    "medio": "Capape",
-    "delantero": "Rubira",
-    "confirmado": false
+    "medio": "Chete",
+    "delantero": "Alfonso",
+    "confirmado": true
   },
   "10": {
     "defensa": null,

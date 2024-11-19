@@ -314,15 +314,23 @@ function guardarEquipo(jornada, defensa, medio, delantero) {
 
 
 // Ejecutar la función cargarEquipo cada vez que se selecciona una nueva jornada
-document.getElementById('jornada-select').addEventListener('change', function() {
-    const jornadaSeleccionada = this.value;
-    if (jornadaSeleccionada) {
-        cargarEquipo(jornadaSeleccionada);  // Mantener esta línea
-        verificarHabilitacionBotonConfirmacion(jornadaSeleccionada); // Agregar esta línea
-    } else {
-        limpiarSeleccion();  // Mantener esta línea
+document.getElementById('jornada-select').addEventListener('change', async function() {
+    mostrarOverlay(); // Bloquea la página mientras se actualiza la jornada
+    try {
+        const jornadaSeleccionada = this.value;
+        if (jornadaSeleccionada) {
+            await cargarEquipo(jornadaSeleccionada);
+            verificarHabilitacionBotonConfirmacion(jornadaSeleccionada);
+        } else {
+            limpiarSeleccion();
+        }
+    } catch (error) {
+        console.error("Error al cambiar la jornada:", error);
+    } finally {
+        await ocultarOverlay(); // Desbloquea la página al finalizar
     }
 });
+
 
 
 // Función para deshabilitar los botones de selección de jugadores
@@ -350,6 +358,8 @@ function habilitarBotonesSeleccion() {
 const equipo_confirmado = false;
 // Función para cargar el equipo desde el archivo de texto y seleccionar los jugadores automáticamente
 async function cargarEquipo(jornada) {
+
+    mostrarOverlay();
     let defensaAnterior = null;
     let medioAnterior = null;
     let delanteroAnterior = null;
@@ -434,6 +444,9 @@ async function cargarEquipo(jornada) {
         habilitarBotonesSeleccion(); // Asegurarse de que los botones estén habilitados si no hay equipo guardado
         verificarRangoConfirmacion(jornada); // Verificar fechas en caso de que no haya equipo guardado
         console.error('Error al obtener el equipo de la jornada actual:', error);
+    }
+    finally {
+        await ocultarOverlay(); // Desbloquea la página después de que todo esté listo
     }
 }
 
@@ -793,6 +806,7 @@ function verificarJornadaOcurrida() {
 
 // Función para actualizar los valores de los jugadores desde el servidor
 async function actualizarValoresJugadores() {
+    mostrarOverlay();
     try {
         const response = await fetch('/actualizar-valores');
         const data = await response.json();
@@ -803,6 +817,8 @@ async function actualizarValoresJugadores() {
         }
     } catch (error) {
         console.error('Error en la solicitud para actualizar los valores:', error);
+    }finally {
+        await ocultarOverlay(); // Desbloquea la página después de que todo esté listo
     }
 }
 
@@ -933,12 +949,40 @@ function procesarFechasYSeleccionarJornada(contenido) {
 }
 
 
+function mostrarOverlay() {
+    const overlay = document.getElementById('overlay-bloqueo');
+    if (overlay) {
+        overlay.style.visibility = 'visible';
+    }
+    document.body.classList.add('bloqueado'); // Bloquea toda la interacción
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function ocultarOverlay() {
+    const overlay = document.getElementById('overlay-bloqueo');
+    if (overlay) {
+        await delay(1000); // Espera 1 segundo antes de continuar
+        overlay.style.visibility = 'hidden';
+    }
+    document.body.classList.remove('bloqueado'); // Desbloquea toda la interacción
+}
 
 
-// Ejecutar la actualización de valores de los jugadores al cargar la página
-window.onload = function() {
-    ajustarJornadaActualDesdeArchivoDirecto();
-    actualizarValoresJugadores();
 
+
+window.onload = async function() {
+    mostrarOverlay(); // Bloquea la página durante la carga inicial
+    try {
+        await ajustarJornadaActualDesdeArchivoDirecto();
+        await actualizarValoresJugadores();
+    } catch (error) {
+        console.error("Error durante la carga inicial:", error);
+    } finally {
+        await ocultarOverlay(); // Desbloquea la página después de que todo esté listo
+    }
 };
+
 

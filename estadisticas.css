@@ -319,6 +319,27 @@ h1 {
     animation: spin 1s linear infinite;
 }
 
+/* Estilos para el botón "Ver más +" */
+.ver-mas-btn {
+    background-color: gold; /* Mismo color que los números del ranking */
+    color: black; /* Texto en negro para contraste */
+    border: none;
+    padding: 8px 20px; /* Ajuste de tamaño más fino */
+    font-size: 16px;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer;
+    display: block; /* Centrar el botón */
+    margin: 10px auto; /* Centrar el botón horizontalmente y agregar margen */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transición para hover */
+}
+
+.ver-mas-btn:hover {
+    background-color: #ffd700; /* Ligero cambio de tono en hover */
+    transform: scale(1.05); /* Efecto de agrandamiento suave */
+}
+
+
+
 /* Animación del spinner */
 @keyframes spin {
     0% { transform: rotate(0deg); }

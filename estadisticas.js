@@ -1,3 +1,8 @@
+// Variables globales para rankings
+const rankingPuntosTotales = {}; // Diccionario para almacenar puntos totales de jugadores
+const rankingPuntosPorPartido = {}; // Diccionario para almacenar puntos por partido de jugadores
+
+
 // Función para mostrar el spinner
 function mostrarSpinner() {
     const spinner = document.getElementById('spinner');
@@ -122,7 +127,18 @@ async function renderizarJugadores(jugadores, valoresJugadores) {
 
         const puntosJugador = puntosPorJugador[jugadorNombre] || [0]; // Si no tiene puntos, asignar [0]
         const puntosTotales = puntosJugador[0]; // El primer elemento es el total de puntos
-        const jornadasJugadas = puntosJugador.length - 1; // Número de jornadas jugadas
+        const jornadasJugadas = jugador.suplente +  jugador.titular; // Número de jornadas jugadas
+        const puntosPorPartido = jornadasJugadas > 0 ? puntosTotales / jornadasJugadas : 0; // Calcular puntos por partido
+
+        // Actualizar rankingPuntosTotales
+        if (!(jugadorNombre in rankingPuntosTotales)) {
+            rankingPuntosTotales[jugadorNombre] = puntosTotales; // Añadir al diccionario si no existe
+        }
+
+        // Actualizar rankingPuntosPorPartido
+        if (!(jugadorNombre in rankingPuntosPorPartido)) {
+            rankingPuntosPorPartido[jugadorNombre] = puntosPorPartido.toFixed(2); // Añadir al diccionario si no existe
+        }
 
         const nombreImagen = jugadorNombre.replace(/\s+/g, '_'); // Reemplazar espacios por guiones bajos
 
@@ -505,16 +521,23 @@ function renderizarRankings(jugadores) {
     const rankingsContainer = document.getElementById('rankings-container');
     rankingsContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos rankings
 
+    // Añadir ranking de puntos totales
+
+    renderizarRankingDiccionario(rankingsContainer, rankingPuntosTotales, 'Top 3 - Puntos Totales', 'puntosTotales');
+
+    // Añadir ranking de puntos por partido
+    renderizarRankingDiccionario(rankingsContainer, rankingPuntosPorPartido, 'Top 3 - Puntos por Partido', 'puntosPorPartido');
+
     // Definir las categorías para los rankings
     const categorias = [
         { key: 'minutos', titulo: 'Top 3 - Minutos Jugados' },
         { key: 'goles', titulo: 'Top 3 - Goles' },
-        { key: 'asistencias', titulo: 'Top 3 - Asistencias' }, // Cambio aquí para usar solo asistencias
+        { key: 'asistencias', titulo: 'Top 3 - Asistencias' },
         { key: 'amarillas', titulo: 'Top 3 - Tarjetas Amarillas' },
         { key: 'rojas', titulo: 'Top 3 - Tarjetas Rojas' }
     ];
 
-    // Generar rankings para cada categoría
+    // Generar rankings normales
     categorias.forEach(categoria => {
         const ranking = obtenerTop3(jugadores, categoria.key);
         if (ranking.length > 0) {
@@ -533,11 +556,103 @@ function renderizarRankings(jugadores) {
             `);
         }
     });
+
 }
+
+// Función para manejar rankings basados en diccionarios globales
+function renderizarRankingDiccionario(container, diccionario, titulo, tipo) {
+    // Convertir el diccionario a un array de pares y ordenarlo por valor descendente
+    const ranking = Object.entries(diccionario)
+        .map(([nombre, valor]) => ({
+            nombre: nombre.trim(), // Eliminar espacios en los nombres
+            valor: parseFloat(valor) // Asegurarse de que el valor sea un número
+        }))
+        .filter(item => !isNaN(item.valor)) // Filtrar valores inválidos
+        .sort((a, b) => b.valor - a.valor); // Ordenar por valor descendente
+
+    const idRanking = `ranking-${tipo}`; // ID único para el ranking
+
+    if (ranking.length > 0) {
+        container.insertAdjacentHTML('beforeend', `
+            <div class="ranking-section" id="${idRanking}">
+                <h2>${titulo}</h2>
+                <div class="ranking-items">
+                    ${ranking.slice(0, 3).map(({ nombre, valor }, index) => `
+                        <div class="ranking-item">
+                            <div class="ranking-position ${index === 0 ? 'ranking-oro' : index === 1 ? 'ranking-plata' : 'ranking-bronce'}">#${index + 1}</div>
+                            <div class="ranking-info">
+                                <span>${nombre} - ${valor.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                 <button class="ver-mas-btn" id="btn-${idRanking}">Ver más +</button>
+            </div>
+        `);
+        // Adjuntar el evento al botón
+        const button = document.getElementById(`btn-${idRanking}`);
+        button.addEventListener('click', () => toggleRankingDiccionario(idRanking, ranking));
+
+    }
+}
+
+
+
+function toggleRankingDiccionario(idRanking) {
+    const section = document.getElementById(idRanking);
+    const itemsContainer = section.querySelector('.ranking-items');
+    const button = section.querySelector('.ver-mas-btn');
+
+
+    // Determinar el ranking correspondiente según el idRanking
+    let ranking;
+    if (idRanking === 'ranking-puntosTotales') {
+        ranking = Object.entries(rankingPuntosTotales)
+            .map(([nombre, valor]) => ({ nombre, valor: parseFloat(valor) }))
+            .filter(item => !isNaN(item.valor))
+            .sort((a, b) => b.valor - a.valor);
+    } else if (idRanking === 'ranking-puntosPorPartido') {
+        ranking = Object.entries(rankingPuntosPorPartido)
+            .map(([nombre, valor]) => ({ nombre, valor: parseFloat(valor) }))
+            .filter(item => !isNaN(item.valor))
+            .sort((a, b) => b.valor - a.valor);
+    } else {
+        console.error(`ID de ranking no válido: ${idRanking}`);
+        return;
+    }
+
+    // Revisar el estado actual del contenedor (expandido o colapsado)
+    if (itemsContainer.dataset.expanded === 'true') {
+        // Mostrar solo el top 3
+        itemsContainer.innerHTML = ranking.slice(0, 3).map(({ nombre, valor }, index) => `
+            <div class="ranking-item">
+                <div class="ranking-position ${index === 0 ? 'ranking-oro' : index === 1 ? 'ranking-plata' : 'ranking-bronce'}">#${index + 1}</div>
+                <div class="ranking-info">
+                    <span>${nombre} - ${valor.toFixed(2)}</span>
+                </div>
+            </div>
+        `).join('');
+        button.textContent = 'Ver más +';
+        itemsContainer.dataset.expanded = 'false';
+    } else {
+        // Mostrar toda la lista
+        itemsContainer.innerHTML = ranking.map(({ nombre, valor }, index) => `
+            <div class="ranking-item">
+                <div class="ranking-position">${index + 1}</div>
+                <div class="ranking-info">
+                    <span>${nombre} - ${valor.toFixed(2)}</span>
+                </div>
+            </div>
+        `).join('');
+        button.textContent = 'Ver menos -';
+        itemsContainer.dataset.expanded = 'true';
+    }
+}
+
+
 
 // Función para obtener el top 3 de jugadores según una categoría específica
 function obtenerTop3(jugadores, categoria) {
-    // Filtrar jugadores que tengan valores válidos para la categoría
     const jugadoresFiltrados = Object.keys(jugadores)
         .map(nombre => ({
             nombre: nombre,
@@ -545,12 +660,10 @@ function obtenerTop3(jugadores, categoria) {
         }))
         .filter(jugador => jugador[categoria] !== undefined);
 
-    // Ordenar los jugadores de mayor a menor según el valor de la categoría
     jugadoresFiltrados.sort((a, b) => b[categoria] - a[categoria]);
-
-    // Retornar solo los primeros 3 jugadores
     return jugadoresFiltrados.slice(0, 3);
 }
+
 
 
 // Función para mostrar el spinner

@@ -182,6 +182,48 @@ h1 {
     margin-right: 20px;
 }
 
+/* Overlay bloqueador */
+.overlay-bloqueo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    z-index: 2000; /* Colocar por encima de todo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden; /* Oculto por defecto */
+}
+
+/* Spinner de carga */
+.overlay-bloqueo .spinner {
+    border: 6px solid #f3f3f3; /* Color gris claro */
+    border-top: 6px solid #3498db; /* Color azul */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+.bloqueado {
+    pointer-events: none; /* Deshabilita todas las interacciones */
+}
+
+.bloqueado * {
+    pointer-events: none; /* Deshabilita clicks en todos los elementos */
+    opacity: 0.5; /* Opcional: reduce la opacidad para indicar el bloqueo */
+}
+
+
+/* Animación del spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 /* Estilos Responsive */
 @media (max-width: 600px) {
     /* Ajustar el ancho de las tarjetas en pantallas pequeñas */

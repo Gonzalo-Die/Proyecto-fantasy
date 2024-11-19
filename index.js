@@ -768,3 +768,5 @@ app.get('/obtener-equipos-confirmados/:usuario', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener equipos confirmados' });
     }
 });
+
+
